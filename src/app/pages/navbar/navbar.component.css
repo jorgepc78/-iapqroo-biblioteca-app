@@ -1,0 +1,9 @@
+.page-header .page-header-top {
+    height: 95px;
+}
+.page-header .page-header-top .page-logo .logo-default {
+    margin: 20.5px 0 0;
+}
+.page-header .page-header-top .top-menu .navbar-nav>li.dropdown-user .dropdown-toggle>img {
+    margin-top: 1px;
+}

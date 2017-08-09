@@ -1,0 +1,38 @@
+<div class="page-wrapper">
+    <div class="page-wrapper-row">
+        <div class="page-wrapper-top">
+            <!-- BEGIN HEADER -->
+            <app-navbar></app-navbar><!-- <div data-ng-include="'app/shared/layout/header.html'" class="page-header"> </div> -->
+            <!-- END HEADER -->
+        </div>
+    </div>
+    <div class="page-wrapper-row full-height">
+        <div class="page-wrapper-middle">
+            <!-- BEGIN CONTAINER -->
+            <div class="page-container">
+                <!-- BEGIN PAGE HEAD -->
+                    <!-- <app-headerbar></app-headerbar> otro componente-->
+                    <!-- <div data-ng-include="'app/shared/layout/page-head.html'" class="page-head"> </div> -->
+                <!-- END PAGE HEAD -->
+                <!-- BEGIN PAGE CONTENT -->
+                <div class="page-content">
+                    <div class="container-fluid">
+                        <!-- BEGIN ACTUAL CONTENT -->
+                        <router-outlet class="fade-in-up"></router-outlet><!-- <div ui-view class="fade-in-up"></div> -->
+                        <!-- END ACTUAL CONTENT -->
+                    </div>
+                </div>
+                <!-- END PAGE CONTENT -->
+            </div>
+            <!-- END CONTAINER -->
+        </div>
+    </div>
+    <!-- aqui va el footer -->
+    <!-- <div class="page-wrapper-row">
+        <div class="page-wrapper-bottom">
+            BEGIN FOOTER
+            <div data-ng-include="'app/shared/layout/footer.html'"> </div>
+            END FOOTER
+        </div>
+    </div> -->
+</div>

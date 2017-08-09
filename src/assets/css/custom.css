@@ -1,0 +1,23 @@
+/* here you can put your own css to customize and override the theme */
+.centrado {
+	text-align: center;
+}
+.font-green {
+    color: #5a7a3d!important;
+}
+.btn.green:not(.btn-outline) {
+    color: #FFF;
+    background-color: #5a7a3d;
+    border-color: #4e6a35;
+}
+
+.table tr.active td {
+  background-color:#5a7a3d !important;
+  color: white;
+}
+
+@media (min-width: 992px) {
+  /* 992px */
+  .container-fluid {
+    padding-left: 30px;
+    padding-right: 30px; } }

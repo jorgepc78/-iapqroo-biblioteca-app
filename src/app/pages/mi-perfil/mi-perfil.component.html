@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-md-offset-4 col-sm-offset-1 col-md-4 col-sm-10 col-xs-12">
+        <div class="portlet light">
+            <div class="portlet-title tabbable-line">
+                <div class="caption caption-md">
+                    <i class="icon-globe theme-font hide"></i>
+                    <span class="caption-subject font-blue-madison bold uppercase">Mi perfil</span>
+                </div>
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#" data-target="#tab_1_1" data-toggle="tab">Mis datos</a>
+                    </li>
+                    <li>
+                        <a href="#" data-target="#tab_1_3" data-toggle="tab">Cambiar contrase&ntilde;a</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="portlet-body">
+                <div class="tab-content">
+                    <!-- PERSONAL INFO TAB -->
+                    <div class="tab-pane active" id="tab_1_1">
+                        <form [formGroup]="formPerfil" (ngSubmit)="actualizaPerfil()">
+                        <!-- <form role="form" action="#"> -->
+                            <div class="form-group">
+                                <label class="control-label">Nombre</label>
+                                <input type="text" formControlName="nombreCompleto" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">No. empleado</label>
+                                <input type="text"  formControlName="codigoEmpleado" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">RFC (Nombre de usuario)</label>
+                                <input type="text"  formControlName="rfc" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">Departamento</label>
+                                <input type="text"  formControlName="departamento" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">Email</label>
+                                <input type="email" formControlName="email" class="form-control" /> </div>
+                            <div class="margiv-top-10">
+                                <button type="submit" [disabled]="!formPerfil.valid" class="btn green-haze">Guardar cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- END PERSONAL INFO TAB -->
+                    <!-- CHANGE PASSWORD TAB -->
+                    <div class="tab-pane" id="tab_1_3">
+                        <form [formGroup]="formPassword" (ngSubmit)="actualizaPassword()">
+                            <div class="form-group">
+                                <label class="control-label">Contrase&ntilde;a anterior</label>
+                                <input type="password" formControlName="anterior" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">Nueva contrase&ntilde;a</label>
+                                <input type="password" formControlName="contrasena" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">Confirmar contrase&ntilde;a</label>
+                                <input type="password" formControlName="confcontrasena" class="form-control" /> </div>
+                            <div class="margin-top-10">
+                            <button type="submit" [disabled]="!formPassword.valid" class="btn green-haze">Cambiar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- END CHANGE PASSWORD TAB -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
