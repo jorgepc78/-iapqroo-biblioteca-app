@@ -20,4 +20,9 @@
   /* 992px */
   .container-fluid {
     padding-left: 30px;
-    padding-right: 30px; } }
+    padding-right: 30px; } 
+}
+
+.thumbnail {
+  border: 0;
+}

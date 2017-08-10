@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SweetAlertService } from 'ngx-sweetalert2';
 import { LibrosService } from '../../../_services/libros.service';
 
 @Component({
@@ -24,6 +25,7 @@ export class AdminLibrosComponent implements OnInit {
 
   constructor(
     private route: Router,
+    private _swal2: SweetAlertService,
     private librosService: LibrosService
   ) { }
 
@@ -112,8 +114,40 @@ export class AdminLibrosComponent implements OnInit {
   }
 
 
-  editaRegistro() {
-    this.route.navigate(['principal/detallelibro/editalibro', 42])
+  editaRegistro(id) {
+    this.route.navigate(['principal/detallelibro/editalibro', id])
+  }
+
+  eliminaRegistro(id) {
+
+    this._swal2.confirm({
+      title: '¿Eliminar registro?',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar'
+    })
+    .then(() => {
+
+      this.librosService
+        .eliminaLibro(id)
+        .subscribe(
+        data => {
+          this.totalRegistrosGlobal--;
+          this.limpiaTexto();
+          this._swal2.success({
+            title: 'Registro eliminado'
+          });
+        },
+        err => {
+          if (err.json().error == undefined)
+            console.log("Error de conexion");
+          else {
+            let error = err.json().error;
+            if (error.status == 401)
+              console.log("error de autorizacion");
+          }
+        });
+
+    });
   }
 
 

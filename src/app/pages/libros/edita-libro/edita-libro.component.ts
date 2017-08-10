@@ -11,12 +11,14 @@ import { LibrosService } from '../../../_services/libros.service';
   templateUrl: './edita-libro.component.html',
   styleUrls: ['./edita-libro.component.css']
 })
+
 export class EditaLibroComponent implements OnInit {
 
   public listaCateg: any = [];
   public formRegistro: FormGroup;
-  public imagenPortada: string = '';
+  public imagenPortada: string = 'assets/img/no_image.png';
   public accion: string = '';
+  public idLibro: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,15 +28,16 @@ export class EditaLibroComponent implements OnInit {
     private librosService: LibrosService
   ) {
     this.formRegistro = this.formBuilder.group({
-      nombre: ["nuevo libro", Validators.required],
-      autor: ["yo", Validators.required],
-      categoria: ["", Validators.required],
-      descripcion: ["prueba de nuevo libro", Validators.required],
+      nombre: ["", Validators.required],
+      autor: ["", Validators.required],
+      idCategoria: [0, Validators.required],
+      descripcion: ["", Validators.required],
       portada: ["", Validators.required]
     });
   }
 
   ngOnInit() {
+
     this.librosService
       .getCategLibros()
       .subscribe(
@@ -45,8 +48,22 @@ export class EditaLibroComponent implements OnInit {
           this.accion = 'new';
         else {
           this.accion = 'edit';
-          let idLibro = parseInt(this.route.snapshot.params['id'], 10);
-          //console.log(idLibro);
+          this.idLibro = parseInt(this.route.snapshot.params['id'], 10);
+
+          this.librosService
+            .getLibro(this.idLibro)
+            .subscribe(
+            data => {
+              let datos = data.json();
+              this.formRegistro.controls['nombre'].setValue(datos.nombre);
+              this.formRegistro.controls['autor'].setValue(datos.autor);
+              this.formRegistro.controls['idCategoria'].setValue(datos.idCategoria);
+              this.formRegistro.controls['descripcion'].setValue(datos.descripcion);
+              if(datos.portada !== '') {
+                this.formRegistro.controls['portada'].setValue(datos.portada);
+                this.imagenPortada = datos.portada;
+              }
+            });
         }
       },
       err => {
@@ -62,6 +79,7 @@ export class EditaLibroComponent implements OnInit {
 
   changeListener($event): void {
     this.formRegistro.controls['portada'].setValue('');
+    this.imagenPortada = 'assets/img/no_image.png';
     this.readThis($event.target);
   }
 
@@ -71,6 +89,7 @@ export class EditaLibroComponent implements OnInit {
 
     myReader.onloadend = (e) => {
       this.formRegistro.controls['portada'].setValue(myReader.result);
+      this.imagenPortada = myReader.result;
     }
     
     if (file)
@@ -79,30 +98,58 @@ export class EditaLibroComponent implements OnInit {
 
   borraImg() {
     this.formRegistro.controls['portada'].setValue('');
+    this.imagenPortada = 'assets/img/no_image.png';
   }
 
 
   actualizaDatos() {
-    this.librosService
-      .agregaLibro(this.formRegistro.value)
-      .subscribe(
-      data => {
-        this._swal2.success({ 
-          title: 'Registro agregado'
-        })
-        .then(() => {
-          this._location.back();
+
+    if (this.accion == 'new')
+    {
+      this.librosService
+        .agregaLibro(this.formRegistro.value)
+        .subscribe(
+        data => {
+          this._swal2.success({
+            title: 'Registro agregado'
+          })
+          .then(() => {
+            this._location.back();
+          });
+        },
+        err => {
+          if (err.json().error == undefined)
+            console.log("Error de conexion");
+          else {
+            let error = err.json().error;
+            if (error.status == 401)
+              console.log("error de autorizacion");
+          }
         });
-      },
-      err => {
-        if (err.json().error == undefined)
-          console.log("Error de conexion");
-        else {
-          let error = err.json().error;
-          if (error.status == 401)
-            console.log("error de autorizacion");
-        }
-      });
+    }
+    else if (this.accion == 'edit')
+    {
+      this.librosService
+        .actualizaLibro(this.idLibro, this.formRegistro.value)
+        .subscribe(
+        data => {
+          this._swal2.success({
+            title: 'Registro actualizado'
+          })
+          .then(() => {
+            this._location.back();
+          });
+        },
+        err => {
+          if (err.json().error == undefined)
+            console.log("Error de conexion");
+          else {
+            let error = err.json().error;
+            if (error.status == 401)
+              console.log("error de autorizacion");
+          }
+        });
+    }
   }
 
 

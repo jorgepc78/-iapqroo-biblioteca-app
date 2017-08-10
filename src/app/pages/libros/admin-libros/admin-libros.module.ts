@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SweetAlertService } from 'ngx-sweetalert2';
 
 import { NgxPaginationModule } from 'ngx-pagination'; 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -19,6 +20,6 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 @NgModule({
   imports: [CommonModule, FormsModule, NgxPaginationModule, AdminLibrosRoutingModule, PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG)],
   declarations: [AdminLibrosComponent],
-  providers: [LibrosService]
+  providers: [SweetAlertService, LibrosService]
 })
 export class AdminLibrosModule { }

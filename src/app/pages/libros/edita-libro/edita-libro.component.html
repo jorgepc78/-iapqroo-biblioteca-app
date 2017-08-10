@@ -1,7 +1,7 @@
 <div class="portlet light bordered">
 <div class="portlet-title">
     <div class="caption">
-        <i class="fa fa-gift"></i>Detalle </div>
+        <i class="fa fa-pencil"></i>Detalle </div>
 </div>
 <div class="portlet-body form">
     <!-- BEGIN FORM-->
@@ -25,8 +25,9 @@
                         <label class="col-md-2 control-label">Categor&iacute;a</label>
                         <div class="col-md-10">
 
-                            <select formControlName="categoria" class="form-control input-circle">
-                              <option *ngFor="let categoria of listaCateg" [ngValue]="categoria">{{categoria.descripcion}}</option>
+                            <select formControlName="idCategoria" class="form-control input-circle">
+                              <option value=0 disabled selected>Seleccione</option> 
+                              <option *ngFor="let categoria of listaCateg" [ngValue]="categoria.idCategoria">{{categoria.descripcion}}</option>
                             </select>
 
                         </div>
@@ -46,17 +47,15 @@
                         <label class="control-label col-md-3">Portada</label>
                         <div class="col-md-9">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
-                                <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                    <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" /> </div>
-                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"> </div>
+                                <div class="fileinput-new thumbnail" style="height: 200px;">
+                                    <img [src]="imagenPortada" alt="" /> </div>
+                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-height: 200px;"> </div>
                                 <div>
                                     <span class="btn btn-file">
-                                        <!-- <span class="fileinput-new btn btn-circle btn-primary"> Seleccionar imagen </span> -->
                                         <button type="button" class="fileinput-new btn btn-circle green">Seleccionar imagen</button>
                                         <button type="button" class="fileinput-exists btn btn-circle grey">Cambiar</button>
                                         <input type="file" accept="image/*" (change)="changeListener($event)"> </span>
                                         <button type="button" (click)="borraImg()" class="fileinput-exists btn btn-circle red" data-dismiss="fileinput">Eliminar</button>
-                                    <!-- <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Eliminar </a> -->
                                 </div>
                             </div>
 

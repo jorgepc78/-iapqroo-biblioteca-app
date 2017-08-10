@@ -8,13 +8,13 @@
                     <span class="caption-subject bold uppercase"> Libros</span>
                 </div>
                 <div class="actions">
-                    <a href="javascript:;" class="btn btn-circle btn-default" (click)="nuevoRegistro()">
+                    <a href="javascript:;" class="btn btn-circle green" (click)="nuevoRegistro()">
                         <i class="fa fa-plus"></i> Nuevo registro </a>
                 </div>
                 <div class="inputs" style="float: left; padding-left: 15px;">
                     <div class="portlet-input input-inline input-xlarge">
                         <div class="input-group">
-                            <input type="text" class="form-control input-circle-left" [(ngModel)]="textoBuscar" placeholder="Buscar titulo...">
+                            <input type="text" class="form-control input-circle-left" [(ngModel)]="textoBuscar" (keyup.enter)="buscaTexto()" placeholder="Buscar titulo...">
                             <span class="input-group-btn" *ngIf="showBtnLimpiar">
                                 <button class="btn green" type="button" (click)="limpiaTexto()"><i class="fa fa-times fa-fw"></i></button>
                             </span>
@@ -65,9 +65,9 @@
                     <span class="caption-subject bold uppercase"> Detalle</span>
                 </div>
                 <div class="actions">
-                    <a href="javascript:;" class="btn btn-circle btn-default" (click)="editaRegistro()">
+                    <a href="javascript:;" class="btn btn-circle green-haze" (click)="editaRegistro(registroSeleccionado.idLibro)">
                         <i class="fa fa-pencil"></i> Editar </a>
-                    <a href="javascript:;" class="btn btn-circle btn-default" (click)="eliminaRegistro()">
+                    <a href="javascript:;" class="btn btn-circle red" (click)="eliminaRegistro(registroSeleccionado.idLibro)">
                         <i class="fa fa-trash-o"></i> Eliminar </a>
                 </div>
             </div>
