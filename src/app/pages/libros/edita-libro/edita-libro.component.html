@@ -60,9 +60,9 @@
                                             <span class="btn btn-file">
                                                 <button type="button" class="fileinput-new btn btn-circle green">Seleccionar imagen</button>
                                                 <button type="button" class="fileinput-exists btn btn-circle grey">Cambiar</button>
-                                                <input type="file" accept="image/*" (change)="changeListener($event)">
+                                                <input #uploadPortada type="file" accept="image/*" (change)="changeListener($event)">
                                             </span>
-                                            <button type="button" (click)="borraImg()" class="fileinput-exists btn btn-circle red" style="margin-left: 12px;" data-dismiss="fileinput">Eliminar</button>
+                                            <button type="button" (click)="borraImg()" class="fileinput-exists btn btn-circle red" style="margin-left: 14px;" data-dismiss="fileinput">Eliminar</button>
                                     
                                     </div>
                                     <div class="col-md-6">
@@ -70,7 +70,6 @@
                                             <div class="fileinput-new thumbnail" style="height: 200px;">
                                                 <img [src]="imagenPortada" alt="" />
                                             </div>
-                                            
                                             <div class="fileinput-preview fileinput-exists thumbnail" style="max-height: 200px;"> </div>
 
                                     </div>
@@ -92,9 +91,9 @@
                                     <span class="btn btn-file">
                                         <button type="button" class="fileinput-new btn btn-circle green" *ngIf="!nombreArchivo.length">Seleccionar archivo pdf</button>
                                         <button type="button" class="btn btn-circle grey" *ngIf="nombreArchivo.length">Cambiar</button>
-                                        <input type="file" name="pdf" ng2FileSelect [uploader]="uploader" />
+                                        <input #uploadDoc type="file" name="pdf" ng2FileSelect [uploader]="uploader"/>
                                     </span>
-                                    <button type="button" (click)="borraArchivo()" *ngIf="nombreArchivo.length" class="btn btn-circle red" style="margin-left: 12px;">Eliminar</button>
+                                    <button type="button" (click)="borraArchivo()" *ngIf="nombreArchivo.length" class="btn btn-circle red" style="margin-left: 14px;">Eliminar</button>
                                 </div>
                                 <div class="col-md-9 text-left">
                                     <div style="margin-top: 25px;" *ngIf="nombreArchivo.length">

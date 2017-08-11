@@ -102,6 +102,12 @@
                         <img [src]="(registroSeleccionado.portada == '' ? 'assets/img/portada_no_disponible.jpg' : registroSeleccionado.portada)" alt="" height="220">
                     </div>
                 </div>
+                <div class="row static-info">
+                    <div class="col-md-3 name"> </div>
+                    <div class="col-md-9 value text-center">
+                        <button type="button" (click)="verLibro(registroSeleccionado.nombreArchivo)" class="fileinput-new btn btn-circle green">Ver libro</button>
+                    </div>
+                </div>
             </div>
             </div>
         </div>

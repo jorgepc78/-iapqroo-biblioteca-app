@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SweetAlertService } from 'ngx-sweetalert2';
+import { environment } from '../../../../environments/environment';
 import { LibrosService } from '../../../_services/libros.service';
 
 @Component({
@@ -148,6 +149,11 @@ export class AdminLibrosComponent implements OnInit {
         });
 
     });
+  }
+
+  verLibro(nombreArchivo: string) {
+    let token = JSON.parse(localStorage.getItem('token'));
+    window.open(environment.apiUrl + "almacen_archivos/libros/download/" + nombreArchivo + "?access_token=" + token.id, "_blank");
   }
 
 

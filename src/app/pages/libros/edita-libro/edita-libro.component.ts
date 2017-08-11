@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef , OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -25,8 +25,11 @@ export class EditaLibroComponent implements OnInit {
   public uploader: FileUploader = new FileUploader({ url: environment.apiUrl + 'almacen_archivos/presentaciones/upload', itemAlias: 'pdf' });
   public nombreArchivo: string = '';
   public errorArchivo: boolean = false;
+  public diferenteArchivo: boolean = false;
   public mostrarProgress: boolean = false;
 
+  @ViewChild('uploadDoc') uploadDocRef: ElementRef;
+  @ViewChild('uploadPortada') uploadPortadaRef: ElementRef;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -46,16 +49,17 @@ export class EditaLibroComponent implements OnInit {
   }
 
   ngOnInit() {
+
     //override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
     this.uploader.onAfterAddingFile = (file) => { 
+
       file.withCredentials = false;
       if (file.file.type == 'application/pdf') {
         this.nombreArchivo = file.file.name;
         this.formRegistro.controls['nombreArchivo'].setValue(this.nombreArchivo);
         this.errorArchivo = false;
-      }
-      else
-      {
+        this.diferenteArchivo = true;
+      } else {
         this.nombreArchivo = 'El archivo no es un pdf';
         this.formRegistro.controls['nombreArchivo'].setValue('');
         this.errorArchivo = true;
@@ -126,6 +130,7 @@ export class EditaLibroComponent implements OnInit {
       });
   }
 
+
   changeListener($event): void {
     this.formRegistro.controls['portada'].setValue('');
     this.imagenPortada = 'assets/img/no_image.png';
@@ -139,14 +144,17 @@ export class EditaLibroComponent implements OnInit {
     myReader.onloadend = (e) => {
       this.formRegistro.controls['portada'].setValue(myReader.result);
       this.imagenPortada = myReader.result;
+      console.log(this.imagenPortada);
     }
     
     if (file)
       myReader.readAsDataURL(file);
   }
 
+
   borraImg() {
     this.formRegistro.controls['portada'].setValue('');
+    this.uploadPortadaRef.nativeElement.value = '';
     this.imagenPortada = 'assets/img/no_image.png';
   }
 
@@ -154,6 +162,7 @@ export class EditaLibroComponent implements OnInit {
     this.formRegistro.controls['nombreArchivo'].setValue('');
     this.nombreArchivo = '';
     this.uploader.clearQueue();
+    this.uploadDocRef.nativeElement.value = '';
   }
 
 
@@ -188,14 +197,17 @@ export class EditaLibroComponent implements OnInit {
         .subscribe(
         data => {
           //this.idLibro = data.json().idLibro;
-          this.uploader.uploadAll();
-
-          this._swal2.success({
-            title: 'Registro actualizado'
-          })
-          .then(() => {
-            //this._location.back();
-          });
+          if (this.diferenteArchivo == true) {
+            this.uploader.uploadAll();
+          }
+          else {
+            this._swal2.success({
+              title: 'Registro actualizado'
+            })
+              .then(() => {
+                this._location.back();
+              });
+          }
         },
         err => {
           if (err.json().error == undefined)
