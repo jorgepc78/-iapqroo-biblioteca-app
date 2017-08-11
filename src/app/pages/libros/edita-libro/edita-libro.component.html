@@ -12,13 +12,15 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nombre</label>
                         <div class="col-md-10">
-                            <textarea class="form-control input-circle" formControlName="nombre" placeholder="Titulo" rows="3" maxlength="150"></textarea>
+                            <textarea class="form-control input-circle" formControlName="nombre" placeholder="Titulo" rows="3" maxlength="150"></textarea>                            
+                            <span *ngIf="formRegistro.controls['nombre'].invalid && (formRegistro.controls['nombre'].dirty || formRegistro.controls['nombre'].touched)" class="help-block font-red-mint">Este campo es requerido.</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Autor</label>
                         <div class="col-md-10">
                             <input type="text" class="form-control input-circle" formControlName="autor" placeholder="Autor" maxlength="105">
+                            <span *ngIf="formRegistro.controls['autor'].invalid && (formRegistro.controls['nombre'].autor || formRegistro.controls['autor'].touched)" class="help-block font-red-mint">Este campo es requerido.</span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -32,42 +34,101 @@
 
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group last">
                         <label class="col-md-2 control-label">Descripci&oacute;n</label>
                         <div class="col-md-10">
-                            <textarea class="form-control input-circle" formControlName="descripcion" placeholder="Autor" rows="15"></textarea>
+                            <textarea class="form-control input-circle" formControlName="descripcion" placeholder="Autor" rows="14"></textarea>
+                            <span *ngIf="formRegistro.controls['descripcion'].invalid && (formRegistro.controls['descripcion'].autor || formRegistro.controls['descripcion'].touched)" class="help-block font-red-mint">Este campo es requerido.</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
+
+                <h4 class="form-section" style="margin-bottom: 0; margin-top: 10px;">Portada</h4>
                 <div class="form-body">
 
-                    <div class="form-group last">
-                        <label class="control-label col-md-3">Portada</label>
+                    <div class="form-group">
+                        <label class="control-label col-md-1"></label>
                         <div class="col-md-9">
+
                             <div class="fileinput fileinput-new" data-provides="fileinput">
-                                <div class="fileinput-new thumbnail" style="height: 200px;">
-                                    <img [src]="imagenPortada" alt="" /> </div>
-                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-height: 200px;"> </div>
-                                <div>
-                                    <span class="btn btn-file">
-                                        <button type="button" class="fileinput-new btn btn-circle green">Seleccionar imagen</button>
-                                        <button type="button" class="fileinput-exists btn btn-circle grey">Cambiar</button>
-                                        <input type="file" accept="image/*" (change)="changeListener($event)"> </span>
-                                        <button type="button" (click)="borraImg()" class="fileinput-exists btn btn-circle red" data-dismiss="fileinput">Eliminar</button>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                            <span class="btn btn-file">
+                                                <button type="button" class="fileinput-new btn btn-circle green">Seleccionar imagen</button>
+                                                <button type="button" class="fileinput-exists btn btn-circle grey">Cambiar</button>
+                                                <input type="file" accept="image/*" (change)="changeListener($event)">
+                                            </span>
+                                            <button type="button" (click)="borraImg()" class="fileinput-exists btn btn-circle red" style="margin-left: 12px;" data-dismiss="fileinput">Eliminar</button>
+                                    
+                                    </div>
+                                    <div class="col-md-6">
+
+                                            <div class="fileinput-new thumbnail" style="height: 200px;">
+                                                <img [src]="imagenPortada" alt="" />
+                                            </div>
+                                            
+                                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-height: 200px;"> </div>
+
+                                    </div>
                                 </div>
+                                
                             </div>
 
+                        </div>
+                    </div>
+
+                    <h4 class="form-section" style="margin-top: 0;">Documento</h4>
+                    <div class="form-group">
+                        <label class="control-label col-md-1"></label>
+                        <div class="col-md-9">
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <!-- File input for the file-upload plugin, with special ng2-file-upload directive called ng2FileSelect -->
+                                    <span class="btn btn-file">
+                                        <button type="button" class="fileinput-new btn btn-circle green" *ngIf="!nombreArchivo.length">Seleccionar archivo pdf</button>
+                                        <button type="button" class="btn btn-circle grey" *ngIf="nombreArchivo.length">Cambiar</button>
+                                        <input type="file" name="pdf" ng2FileSelect [uploader]="uploader" />
+                                    </span>
+                                    <button type="button" (click)="borraArchivo()" *ngIf="nombreArchivo.length" class="btn btn-circle red" style="margin-left: 12px;">Eliminar</button>
+                                </div>
+                                <div class="col-md-9 text-left">
+                                    <div style="margin-top: 25px;" *ngIf="nombreArchivo.length">
+                                        <i class="fa fa-file-text-o fa-2x" aria-hidden="true" ></i>
+                                        <i class="fa fa-check fa-2x" style="color: green;" aria-hidden="true" *ngIf="!errorArchivo"></i>
+                                        <i class="fa fa-times fa-2x" style="color: red;" aria-hidden="true" *ngIf="errorArchivo"></i>
+                                        <span class="form-control-static"> {{nombreArchivo}} </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="form-actions right">
-            <button type="submit" [disabled]="!formRegistro.valid" class="btn btn-circle green">Guardar</button>
-            <button type="button" (click)="regresar()" class="btn btn-circle grey-salsa btn-outline">Cancelar</button>
+        <div class="form-actions">
+            <div class="btn-set pull-left">
+                <div class="row" *ngIf="mostrarProgress">
+                    <div class="col-md-4" style="padding-right: 0;">
+                        <span> Subiendo archivo y creando libro...</span>
+                    </div>
+                    <div class="col-md-8 text-left" style="padding-left: 0;">
+                        <div class="progress" style="width: 600px;">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-set pull-right">
+                <button type="submit" [disabled]="!formRegistro.valid" class="btn btn-circle green">Guardar</button>
+                <button type="button" (click)="regresar()" class="btn btn-circle grey-salsa btn-outline">Cancelar</button>
+            </div>
         </div>
     </form>
     <!-- END FORM-->

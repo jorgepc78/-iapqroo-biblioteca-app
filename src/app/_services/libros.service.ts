@@ -90,7 +90,7 @@ export class LibrosService {
       descripcion: data.descripcion,
       idCategoria: data.idCategoria,
       portada: data.portada,
-      nombreArchivo: ''
+      nombreArchivo: data.nombreArchivo
     };
 
     return this.http
@@ -111,7 +111,7 @@ export class LibrosService {
       descripcion: data.descripcion,
       idCategoria: data.idCategoria,
       portada: data.portada,
-      nombreArchivo: ''
+      nombreArchivo: data.nombreArchivo
     };
 
     return this.http
