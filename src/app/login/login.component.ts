@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit                  } from '@angular/core';
+import { Router                             } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import 'rxjs/add/operator/finally';
 
-import { AuthService } from '../_services/auth.service';
+import { LoginService                       } from './login.service';
 
 @Component({
   selector: 'app-login',
@@ -21,10 +22,10 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: Router,
-    private authService: AuthService
+    private loginService: LoginService
   ) {
     this.formLogin = this.formBuilder.group({
-      email: ["jorgepc15@hotmail.com", Validators.required],
+      email: ["publicador@hotmail.com", Validators.required],
       password: ["txfiles", Validators.required]
     });
   }
@@ -33,7 +34,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginUsr() {
-    this.authService
+    this.loginService
       .loginUser(this.formLogin.value.email, this.formLogin.value.password)
       .finally(() => {
         // Execute after graceful or exceptionally termination
@@ -56,7 +57,7 @@ export class LoginComponent implements OnInit {
         {
             this.txtMsgError = 'Nombre de usuario/contraseña incorrectos';
             this.colorMsgError = 'danger';
-            this.mostrarMsgError = true;          
+            this.mostrarMsgError = true;
         }
         setTimeout(() => {
           this.mostrarMsgError = false;

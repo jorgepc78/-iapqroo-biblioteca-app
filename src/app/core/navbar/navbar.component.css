@@ -1,0 +1,34 @@
+.page-header .page-header-top {
+    height: 95px;
+}
+.page-header .page-header-top .page-logo .logo-default {
+    margin: 20.5px 0 0;
+}
+.page-header .page-header-top .top-menu .navbar-nav>li.dropdown-user .dropdown-toggle>img {
+    margin-top: 1px;
+}
+/*active menu*/
+.page-header .page-header-menu .hor-menu .navbar-nav > li:hover > a,
+.page-header .page-header-menu .hor-menu .navbar-nav > li.open > a,
+.page-header .page-header-menu .hor-menu .navbar-nav > li > a:hover,
+.page-header .page-header-menu .hor-menu .navbar-nav > li > a:focus,
+.page-header .page-header-menu .hor-menu .navbar-nav > li > a:active {
+  color: #ffffff;
+  background: #5a7a3d !important; }
+
+.page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav > li.active > a,
+.page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav > li.active > a:hover, .page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav > li.current > a,
+.page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav > li.current > a:hover {
+  color: #f1f1f1;
+  background: #5a7a3d; }
+
+/*hover menu*/
+.page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav > li:hover > a,
+      .page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav > li.open > a {
+        color: #ffffff !important;
+        background: #26a1ab !important; }
+        /*icono del menu*/
+        .page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav > li:hover > a > i,
+        .page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav > li.open > a > i {
+          color: #ffffff !important; }
+      

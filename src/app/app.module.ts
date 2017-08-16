@@ -1,24 +1,22 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, LOCALE_ID } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule, BrowserXhr } from '@angular/http';
+import { BrowserModule                          } from '@angular/platform-browser';
+import { NgModule, LOCALE_ID                    } from '@angular/core';
+import { FormsModule                            } from '@angular/forms';
+import { HttpModule, BrowserXhr                 } from '@angular/http';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
 
-import { AppComponent } from './app.component';
+/* App Root */
+import { AppComponent                           } from './app.component';
 
-import { UsuarioDataService } from './_services/usuario-data.service';
+/* Feature Modules */
+import { LoginModule                            } from './login/login.module';
+import { CoreModule                             } from './core/core.module';
 
-/*modulos de los componentes*/
-import { LoginModule } from './login/login.module';
-import { PagesModule } from './pages/pages.module';
+/* Routing Module */
+import { AppRoutingModule                       } from './app-routing.module';
 
-/*Routing module*/
-import { AppRoutingModule } from './app-routing.module';
-
-/*Guards*/
-import { AuthGuard } from './_guards/auth.guard';
-
+/* Guards*/
+import { AuthGuard                              } from './core/auth.guard';
 
 @NgModule({
   declarations: [
@@ -28,16 +26,15 @@ import { AuthGuard } from './_guards/auth.guard';
     BrowserModule,
     FormsModule,
     HttpModule,
+    CoreModule,
     NgProgressModule,
     AppRoutingModule,
-    LoginModule,
-    PagesModule
+    LoginModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "es-MX" },
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: BrowserXhr, useClass: NgProgressBrowserXhr },
-    UsuarioDataService,
     AuthGuard
   ],
   bootstrap: [AppComponent]
