@@ -1,15 +1,16 @@
-import { Component, OnInit         } from '@angular/core';
-import { Router                    } from '@angular/router';
-import { SweetAlertService         } from 'ngx-sweetalert2';
-import { environment               } from '../../../environments/environment';
-import { AdminPublicacionesService } from './admin-publicaciones.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { SweetAlertService } from 'ngx-sweetalert2';
+import { environment } from '../../../environments/environment';
+import { AdminRevistasService } from './admin-revistas.service';
+
 
 @Component({
-  selector: 'app-admin-publicaciones',
-  templateUrl: './admin-publicaciones.component.html',
-  styleUrls: ['./admin-publicaciones.component.css']
+  selector: 'app-admin-revistas',
+  templateUrl: './admin-revistas.component.html',
+  styleUrls: ['./admin-revistas.component.css']
 })
-export class AdminPublicacionesComponent implements OnInit {
+export class AdminRevistasComponent implements OnInit {
 
   public listaRegistros: any = [];
   public registroSeleccionado: any;
@@ -18,21 +19,21 @@ export class AdminPublicacionesComponent implements OnInit {
   public totalRegistrosGlobal: number = 0;
 
   public tablaListaRegistros = {
-    totalElementos: 0,
-    paginaActual: 1,
-    registrosPorPagina: 10,
-    condicion: {}
+    totalElementos     : 0,
+    paginaActual       : 1,
+    registrosPorPagina : 10,
+    condicion          : {}
   };
 
   constructor(
     private route: Router,
     private _swal2: SweetAlertService,
-    private adminPublicacionesService: AdminPublicacionesService
+    private adminRevistasService: AdminRevistasService
   ) { }
 
   ngOnInit() {
-    this.adminPublicacionesService
-      .getTotalPublicaciones(this.tablaListaRegistros.condicion)
+    this.adminRevistasService
+      .getTotalRevistas(this.tablaListaRegistros.condicion)
       .subscribe(
       data => {
           this.tablaListaRegistros.totalElementos = data.json().count;
@@ -53,8 +54,8 @@ export class AdminPublicacionesComponent implements OnInit {
 
   cambiaPagina(page: number) {
     this.tablaListaRegistros.paginaActual = page;
-    this.adminPublicacionesService
-      .getlistaPublicacionesAdmin(this.tablaListaRegistros.condicion, this.tablaListaRegistros.registrosPorPagina, this.tablaListaRegistros.paginaActual)
+    this.adminRevistasService
+      .getlistaRevistasAdmin(this.tablaListaRegistros.condicion, this.tablaListaRegistros.registrosPorPagina, this.tablaListaRegistros.paginaActual)
       .subscribe(
       data => {
         this.listaRegistros = data.json();
@@ -81,8 +82,8 @@ export class AdminPublicacionesComponent implements OnInit {
     this.tablaListaRegistros.condicion = {nombre:{like:"%25"+this.textoBuscar+"%25"}};
     this.showBtnLimpiar = true;
     this.tablaListaRegistros.paginaActual = 1;
-    this.adminPublicacionesService
-      .getTotalPublicaciones(this.tablaListaRegistros.condicion)
+    this.adminRevistasService
+      .getTotalRevistas(this.tablaListaRegistros.condicion)
       .subscribe(
       data => {
         this.tablaListaRegistros.totalElementos = data.json().count;
@@ -110,12 +111,12 @@ export class AdminPublicacionesComponent implements OnInit {
 
 
   nuevoRegistro() {
-    this.route.navigate(['principal/detallepublicacion/agregapublicacion'])
+    this.route.navigate(['principal/detallerevista/agregarevista'])
   }
 
 
   editaRegistro(id) {
-    this.route.navigate(['principal/detallepublicacion/editapublicacion', id])
+    this.route.navigate(['principal/detallerevista/editarevista', id])
   }
 
 
@@ -128,8 +129,8 @@ export class AdminPublicacionesComponent implements OnInit {
     })
     .then(() => {
 
-      this.adminPublicacionesService
-        .eliminaPublicacion(id, nombreArchivo)
+      this.adminRevistasService
+        .eliminaRevista(id, nombreArchivo)
         .subscribe(
         data => {
           this.totalRegistrosGlobal--;
@@ -158,9 +159,9 @@ export class AdminPublicacionesComponent implements OnInit {
     });
   }
 
-  verPublicacion(nombreArchivo: string) {
+  verRevista(nombreArchivo: string) {
     let token = JSON.parse(localStorage.getItem('token'));
-    window.open(environment.apiUrl + "almacen_archivos/publicaciones/download/" + nombreArchivo + "?access_token=" + token.id, "_blank");
+    window.open(environment.apiUrl + "almacen_archivos/revistas/download/" + nombreArchivo + "?access_token=" + token.id, "_blank");
   }
 
 

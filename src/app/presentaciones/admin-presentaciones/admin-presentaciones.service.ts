@@ -3,11 +3,12 @@ import { Http, Response, Headers } from '@angular/http';
 import { environment             } from '../../../environments/environment';
 import { Observable              } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 @Injectable()
-export class AdminLibrosService {
+export class AdminPresentacionesService {
 
   private headers = new Headers({ 'Content-Type': 'text/plain' });
 
@@ -15,11 +16,11 @@ export class AdminLibrosService {
     private http: Http
   ) { }
 
-  getTotalLibros(condicion: any): Observable<any> {
+  getTotalPresentaciones(condicion: any): Observable<any> {
 
     let token = JSON.parse(localStorage.getItem('token'));
     return this.http
-      .get(environment.apiUrl + 'Libros/count?where=' + JSON.stringify(condicion) + '&access_token=' + token.id, { headers: this.headers })
+      .get(environment.apiUrl + 'Presentaciones/count?where=' + JSON.stringify(condicion) + '&access_token=' + token.id, { headers: this.headers })
       .map((response: Response) => {
         return response;
       })
@@ -27,7 +28,7 @@ export class AdminLibrosService {
   }
 
 
-  getlistaLibrosAdmin(condicion: any, registrosPorPagina: number, paginaActual: number): Observable<any> {
+  getlistaPresentacionesAdmin(condicion: any, registrosPorPagina: number, paginaActual: number): Observable<any> {
 
     let token = JSON.parse(localStorage.getItem('token'));
     let skip = (paginaActual - 1) * registrosPorPagina;
@@ -41,7 +42,7 @@ export class AdminLibrosService {
     };
 
     return this.http
-      .get(environment.apiUrl + 'Libros/?filter=' + JSON.stringify(filter) + '&access_token=' + token.id, { headers: this.headers })
+      .get(environment.apiUrl + 'Presentaciones/?filter=' + JSON.stringify(filter) + '&access_token=' + token.id, { headers: this.headers })
       .map((response: Response) => {
         return response;
       })
@@ -49,22 +50,22 @@ export class AdminLibrosService {
   }
 
 
-  eliminaLibro(id: number, nombreArchivo: string): Observable<any> {
+  eliminaPresentacion(id: number, nombreArchivo: string): Observable<any> {
 
     let token = JSON.parse(localStorage.getItem('token'));
 
     return this.http
-      .delete(environment.apiUrl + 'Libros/' + id + '/?access_token=' + token.id, { headers: this.headers })
+      .delete(environment.apiUrl + 'Presentaciones/' + id + '/?access_token=' + token.id, { headers: this.headers })
       .map(res => res.json())
       .mergeMap((response: any) => {
         return this.http
-          .delete(environment.apiUrl + 'almacen_archivos/libros/files/' + nombreArchivo + '/?access_token=' + token.id, { headers: this.headers })
+          .delete(environment.apiUrl + 'almacen_archivos/presentaciones/files/'+nombreArchivo+'/?access_token=' + token.id, { headers: this.headers })
           .map((response: any) => {
             return response;
           })
           .catch(this.handleError);
       })
-      .catch(this.handleError);
+      .catch(this.handleError);      
   }
 
 

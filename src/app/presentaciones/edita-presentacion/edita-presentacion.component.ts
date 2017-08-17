@@ -7,22 +7,21 @@ import { FileUploader                             } from 'ng2-file-upload/ng2-fi
 import { SweetAlertService                        } from 'ngx-sweetalert2';
 
 import { environment                              } from '../../../environments/environment';
-import { EditaPublicacionService                  } from './edita-publicacion.service';
-
+import { EditaPresentacionService                 } from './edita-presentacion.service';
 
 @Component({
-  selector: 'app-edita-publicacion',
-  templateUrl: './edita-publicacion.component.html',
-  styleUrls: ['./edita-publicacion.component.css']
+  selector: 'app-edita-presentacion',
+  templateUrl: './edita-presentacion.component.html',
+  styleUrls: ['./edita-presentacion.component.css']
 })
-export class EditaPublicacionComponent implements OnInit {
+export class EditaPresentacionComponent implements OnInit {
 
   public listaCateg: any = [];
   public formRegistro: FormGroup;
   public imagenPortada: string = 'assets/img/no_image.png';
   public accion: string = '';
-  public idPublicacion: number = 0;
-  public uploader: FileUploader = new FileUploader({ url: environment.apiUrl + 'almacen_archivos/publicaciones/upload', itemAlias: 'pdf' });
+  public idPresentacion: number = 0;
+  public uploader: FileUploader = new FileUploader({ url: environment.apiUrl + 'almacen_archivos/presentaciones/upload', itemAlias: 'pdf' });
   public nombreArchivo: string = '';
   public errorArchivo: boolean = false;
   public diferenteArchivo: boolean = false;
@@ -36,7 +35,7 @@ export class EditaPublicacionComponent implements OnInit {
     private _swal2: SweetAlertService,
     private route: ActivatedRoute,
     private _location: Location,
-    private editaPublicacionService: EditaPublicacionService
+    private editaPresentacionService: EditaPresentacionService
   ) {
     this.formRegistro = this.formBuilder.group({
       nombre: ["", Validators.required],
@@ -50,6 +49,7 @@ export class EditaPublicacionComponent implements OnInit {
 
   ngOnInit() {
 
+    //override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
     this.uploader.onAfterAddingFile = (file) => {
       file.withCredentials = false;
       if (file.file.type == 'application/pdf') {
@@ -65,20 +65,28 @@ export class EditaPublicacionComponent implements OnInit {
       }
     };
 
+    this.uploader.onBeforeUploadItem = (file) => {
+      //file.file.name = this.idPresentacion + '_' + file.file.name;
+    };
+    //overide the onCompleteItem property of the uploader so we are 
+    //able to deal with the server response.
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      //console.log("ImageUpload:uploaded:", item, status, response);
       setTimeout(() => {
+
         this._swal2.success({
           title: 'Registro agregado'
         })
-        .then(() => {
-          this._location.back();
-        });
+          .then(() => {
+            this._location.back();
+          });
+
       }, 1000);
     };
 
 
-    this.editaPublicacionService
-      .getCategPublicaciones()
+    this.editaPresentacionService
+      .getCategPresentaciones()
       .subscribe(
       data => {
 
@@ -87,10 +95,10 @@ export class EditaPublicacionComponent implements OnInit {
           this.accion = 'new';
         else {
           this.accion = 'edit';
-          this.idPublicacion = parseInt(this.route.snapshot.params['id'], 10);
+          this.idPresentacion = parseInt(this.route.snapshot.params['id'], 10);
 
-          this.editaPublicacionService
-            .getPublicacion(this.idPublicacion)
+          this.editaPresentacionService
+            .getPresentacion(this.idPresentacion)
             .subscribe(
             data => {
               let datos = data.json();
@@ -161,8 +169,8 @@ export class EditaPublicacionComponent implements OnInit {
 
     this.mostrarProgress = true;
     if (this.accion == 'new') {
-      this.editaPublicacionService
-        .agregaPublicacion(this.formRegistro.value)
+      this.editaPresentacionService
+        .agregaPresentacion(this.formRegistro.value)
         .subscribe(
         data => {
           setTimeout(() => {
@@ -180,8 +188,8 @@ export class EditaPublicacionComponent implements OnInit {
         });
     }
     else if (this.accion == 'edit') {
-      this.editaPublicacionService
-        .actualizaPublicacion(this.idPublicacion, this.formRegistro.value)
+      this.editaPresentacionService
+        .actualizaPresentacion(this.idPresentacion, this.formRegistro.value)
         .subscribe(
         data => {
           if (this.diferenteArchivo == true) {

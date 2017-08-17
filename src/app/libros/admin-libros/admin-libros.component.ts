@@ -119,7 +119,7 @@ export class AdminLibrosComponent implements OnInit {
   }
 
 
-  eliminaRegistro(id) {
+  eliminaRegistro(id, nombreArchivo) {
 
     this._swal2.confirm({
       title: '¿Eliminar registro?',
@@ -129,7 +129,7 @@ export class AdminLibrosComponent implements OnInit {
     .then(() => {
 
       this.adminLibrosService
-        .eliminaLibro(id)
+        .eliminaLibro(id, nombreArchivo)
         .subscribe(
         data => {
           this.totalRegistrosGlobal--;
@@ -145,6 +145,13 @@ export class AdminLibrosComponent implements OnInit {
             let error = err.json().error;
             if (error.status == 401)
               console.log("error de autorizacion");
+            else if (error.statusCode == 500 && error.statusCode !== undefined) {
+              this.totalRegistrosGlobal--;
+              this.limpiaTexto();
+              this._swal2.success({
+                title: 'Registro eliminado'
+              });
+            }
           }
         });
 

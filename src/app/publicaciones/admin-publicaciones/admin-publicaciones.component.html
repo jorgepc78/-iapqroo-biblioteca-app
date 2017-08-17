@@ -64,10 +64,10 @@
                     <i class="icon-book-open font-dark"></i>
                     <span class="caption-subject bold uppercase"> Detalle</span>
                 </div>
-                <div class="actions">
+                <div class="actions" *ngIf="(listaRegistros.length > 0)">
                     <a href="javascript:;" class="btn btn-circle green-haze" (click)="editaRegistro(registroSeleccionado.idPublicacion)">
                         <i class="fa fa-pencil"></i> Editar </a>
-                    <a href="javascript:;" class="btn btn-circle red" (click)="eliminaRegistro(registroSeleccionado.idPublicacion)">
+                    <a href="javascript:;" class="btn btn-circle red" (click)="eliminaRegistro(registroSeleccionado.idPublicacion, registroSeleccionado.nombreArchivo)">
                         <i class="fa fa-trash-o"></i> Eliminar </a>
                 </div>
             </div>

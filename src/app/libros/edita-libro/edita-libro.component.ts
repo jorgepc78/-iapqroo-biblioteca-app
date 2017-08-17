@@ -144,7 +144,6 @@ export class EditaLibroComponent implements OnInit {
     myReader.onloadend = (e) => {
       this.formRegistro.controls['portada'].setValue(myReader.result);
       this.imagenPortada = myReader.result;
-      console.log(this.imagenPortada);
     }
     
     if (file)

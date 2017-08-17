@@ -5,7 +5,7 @@
             <div class="portlet-title">
                 <div class="caption font-dark">
                     <i class="icon-notebook font-dark"></i>
-                    <span class="caption-subject bold uppercase"> Libros</span>
+                    <span class="caption-subject bold uppercase"> Revistas</span>
                 </div>
                 <div class="actions">
                     <a href="javascript:;" class="btn btn-circle green" (click)="nuevoRegistro()">
@@ -65,9 +65,9 @@
                     <span class="caption-subject bold uppercase"> Detalle</span>
                 </div>
                 <div class="actions" *ngIf="(listaRegistros.length > 0)">
-                    <a href="javascript:;" class="btn btn-circle green-haze" (click)="editaRegistro(registroSeleccionado.idLibro)">
+                    <a href="javascript:;" class="btn btn-circle green-haze" (click)="editaRegistro(registroSeleccionado.idRevista)">
                         <i class="fa fa-pencil"></i> Editar </a>
-                    <a href="javascript:;" class="btn btn-circle red" (click)="eliminaRegistro(registroSeleccionado.idLibro, registroSeleccionado.nombreArchivo)">
+                    <a href="javascript:;" class="btn btn-circle red" (click)="eliminaRegistro(registroSeleccionado.idRevista, registroSeleccionado.nombreArchivo)">
                         <i class="fa fa-trash-o"></i> Eliminar </a>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                 <div class="row static-info">
                     <div class="col-md-3 name"> </div>
                     <div class="col-md-9 value text-center">
-                        <button type="button" (click)="verLibro(registroSeleccionado.nombreArchivo)" class="fileinput-new btn btn-circle green">Ver libro</button>
+                        <button type="button" (click)="verRevista(registroSeleccionado.nombreArchivo)" class="fileinput-new btn btn-circle green">Ver revista</button>
                     </div>
                 </div>
             </div>

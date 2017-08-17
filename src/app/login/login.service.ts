@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Http, Response, Headers } from '@angular/http';
+import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { UsuarioDataService } from '../core/usuario-data.service';
@@ -13,9 +13,6 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class LoginService {
   
-  private headers = new Headers({ 'Content-Type': 'text/plain' });
-  private headers2 = new Headers({ 'Content-Type': 'application/json' });
-
   constructor(
     private http: Http,
     private usuarioDataService: UsuarioDataService
@@ -23,9 +20,7 @@ export class LoginService {
 
   loginUser(email: string, password: string): Observable<any> {
     return this.http
-      .post(environment.apiUrl + 'Usuarios/login',
-      JSON.stringify({ email: email, password: password }),
-      { headers: this.headers2 })
+      .post(environment.apiUrl + 'Usuarios/login', JSON.stringify({ email: email, password: password }), { headers: new Headers({ 'Content-Type': 'application/json' }) })
       .map(res => res.json())
       .mergeMap((response: any) => {
 
@@ -37,8 +32,25 @@ export class LoginService {
         };
         localStorage.setItem('token', JSON.stringify(token));
 
+        
+        const filter = {
+          fields: ["id", "email", "nombre", "apellidoPaterno", "apellidoMaterno"],
+          include: [
+            {
+              relation: "perfil",
+              scope: {
+                fields: ["name"]
+              }
+            }
+          ]
+        };
+
+        let myParams = new URLSearchParams();
+        myParams.set('filter', JSON.stringify(filter));
+        myParams.set('access_token', token.id);
+
         return this.http
-          .get(environment.apiUrl + 'Usuarios/' + resp.userId + '?filter={"fields":["id","email","nombre","apellidoPaterno","apellidoMaterno"],"include":[{"relation":"perfil","scope":{"fields":["name"]}}]}&access_token=' + token.id, { headers: this.headers })
+          .get(environment.apiUrl + 'Usuarios/' + resp.userId, { params: myParams, headers: new Headers({ 'Content-Type': 'text/plain' }) })
           .map((response: Response) => {
 
             let datos = response.json();

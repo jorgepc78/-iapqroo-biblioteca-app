@@ -49,14 +49,20 @@ export class AdminPublicacionesService {
   }
 
 
-  eliminaPublicacion(id: number): Observable<any> {
+  eliminaPublicacion(id: number, nombreArchivo: string): Observable<any> {
 
     let token = JSON.parse(localStorage.getItem('token'));
 
     return this.http
       .delete(environment.apiUrl + 'Publicaciones/' + id + '/?access_token=' + token.id, { headers: this.headers })
-      .map((response: Response) => {
-        return response;
+      .map(res => res.json())
+      .mergeMap((response: any) => {
+        return this.http
+          .delete(environment.apiUrl + 'almacen_archivos/publicaciones/files/' + nombreArchivo + '/?access_token=' + token.id, { headers: this.headers })
+          .map((response: any) => {
+            return response;
+          })
+          .catch(this.handleError);
       })
       .catch(this.handleError);
   }

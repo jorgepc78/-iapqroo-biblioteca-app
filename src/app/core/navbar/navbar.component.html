@@ -44,8 +44,14 @@
                         <li *ngIf="perfilMenu.editaLibros" routerLinkActive="active">
                             <a [routerLink]="['/principal/adminlibros']"><i class="icon-wallet"></i> Admin libros</a>
                         </li>
+                        <li *ngIf="perfilMenu.editaRevistas" routerLinkActive="active">
+                            <a [routerLink]="['/principal/adminrevistas']"><i class="icon-wallet"></i> Admin Revistas</a>
+                        </li>
                         <li *ngIf="perfilMenu.editaPublica" routerLinkActive="active">
                             <a [routerLink]="['/principal/adminpublicaciones']"><i class="icon-wallet"></i> Admin Publicaciones</a>
+                        </li>
+                        <li *ngIf="perfilMenu.editaPresenta" routerLinkActive="active">
+                            <a [routerLink]="['/principal/adminpresentaciones']"><i class="icon-wallet"></i> Admin Presentaciones</a>
                         </li>
 
                         <li *ngIf="perfilMenu.verLibros" uiSrefActive="active">

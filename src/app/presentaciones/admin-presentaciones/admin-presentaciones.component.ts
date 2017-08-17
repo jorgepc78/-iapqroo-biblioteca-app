@@ -1,15 +1,15 @@
-import { Component, OnInit         } from '@angular/core';
-import { Router                    } from '@angular/router';
-import { SweetAlertService         } from 'ngx-sweetalert2';
-import { environment               } from '../../../environments/environment';
-import { AdminPublicacionesService } from './admin-publicaciones.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { SweetAlertService } from 'ngx-sweetalert2';
+import { environment } from '../../../environments/environment';
+import { AdminPresentacionesService } from './admin-presentaciones.service';
 
 @Component({
-  selector: 'app-admin-publicaciones',
-  templateUrl: './admin-publicaciones.component.html',
-  styleUrls: ['./admin-publicaciones.component.css']
+  selector: 'app-admin-presentaciones',
+  templateUrl: './admin-presentaciones.component.html',
+  styleUrls: ['./admin-presentaciones.component.css']
 })
-export class AdminPublicacionesComponent implements OnInit {
+export class AdminPresentacionesComponent implements OnInit {
 
   public listaRegistros: any = [];
   public registroSeleccionado: any;
@@ -27,17 +27,17 @@ export class AdminPublicacionesComponent implements OnInit {
   constructor(
     private route: Router,
     private _swal2: SweetAlertService,
-    private adminPublicacionesService: AdminPublicacionesService
+    private adminPresentacionesService: AdminPresentacionesService
   ) { }
 
   ngOnInit() {
-    this.adminPublicacionesService
-      .getTotalPublicaciones(this.tablaListaRegistros.condicion)
+    this.adminPresentacionesService
+      .getTotalPresentaciones(this.tablaListaRegistros.condicion)
       .subscribe(
       data => {
-          this.tablaListaRegistros.totalElementos = data.json().count;
-          this.totalRegistrosGlobal = data.json().count;
-          this.cambiaPagina(this.tablaListaRegistros.paginaActual);
+        this.tablaListaRegistros.totalElementos = data.json().count;
+        this.totalRegistrosGlobal = data.json().count;
+        this.cambiaPagina(this.tablaListaRegistros.paginaActual);
       },
       err => {
         if (err.json().error == undefined)
@@ -53,8 +53,8 @@ export class AdminPublicacionesComponent implements OnInit {
 
   cambiaPagina(page: number) {
     this.tablaListaRegistros.paginaActual = page;
-    this.adminPublicacionesService
-      .getlistaPublicacionesAdmin(this.tablaListaRegistros.condicion, this.tablaListaRegistros.registrosPorPagina, this.tablaListaRegistros.paginaActual)
+    this.adminPresentacionesService
+      .getlistaPresentacionesAdmin(this.tablaListaRegistros.condicion, this.tablaListaRegistros.registrosPorPagina, this.tablaListaRegistros.paginaActual)
       .subscribe(
       data => {
         this.listaRegistros = data.json();
@@ -78,11 +78,11 @@ export class AdminPublicacionesComponent implements OnInit {
 
 
   buscaTexto() {
-    this.tablaListaRegistros.condicion = {nombre:{like:"%25"+this.textoBuscar+"%25"}};
+    this.tablaListaRegistros.condicion = { nombre: { like: "%25" + this.textoBuscar + "%25" } };
     this.showBtnLimpiar = true;
     this.tablaListaRegistros.paginaActual = 1;
-    this.adminPublicacionesService
-      .getTotalPublicaciones(this.tablaListaRegistros.condicion)
+    this.adminPresentacionesService
+      .getTotalPresentaciones(this.tablaListaRegistros.condicion)
       .subscribe(
       data => {
         this.tablaListaRegistros.totalElementos = data.json().count;
@@ -110,12 +110,12 @@ export class AdminPublicacionesComponent implements OnInit {
 
 
   nuevoRegistro() {
-    this.route.navigate(['principal/detallepublicacion/agregapublicacion'])
+    this.route.navigate(['principal/detallepresentacion/agregapresentacion'])
   }
 
 
   editaRegistro(id) {
-    this.route.navigate(['principal/detallepublicacion/editapublicacion', id])
+    this.route.navigate(['principal/detallepresentacion/editapresentacion', id])
   }
 
 
@@ -126,41 +126,41 @@ export class AdminPublicacionesComponent implements OnInit {
       confirmButtonText: 'Eliminar',
       cancelButtonText: 'Cancelar'
     })
-    .then(() => {
+      .then(() => {
 
-      this.adminPublicacionesService
-        .eliminaPublicacion(id, nombreArchivo)
-        .subscribe(
-        data => {
-          this.totalRegistrosGlobal--;
-          this.limpiaTexto();
-          this._swal2.success({
-            title: 'Registro eliminado'
-          });
-        },
-        err => {
-          if (err.json().error == undefined)
-            console.log("Error de conexion");
-          else {
-            let error = err.json().error;
-            if (error.status == 401)
-              console.log("error de autorizacion");
-            else if (error.statusCode == 500 && error.statusCode !== undefined) {
-              this.totalRegistrosGlobal--;
-              this.limpiaTexto();
-              this._swal2.success({
-                title: 'Registro eliminado'
-              });
+        this.adminPresentacionesService
+          .eliminaPresentacion(id, nombreArchivo)
+          .subscribe(
+          data => {
+            this.totalRegistrosGlobal--;
+            this.limpiaTexto();
+            this._swal2.success({
+              title: 'Registro eliminado'
+            });
+          },
+          err => {
+            if (err.json().error == undefined)
+              console.log("Error de conexion");
+            else {
+              let error = err.json().error;
+              if (error.status == 401)
+                console.log("error de autorizacion");
+              else if (error.statusCode == 500 && error.statusCode !== undefined) {
+                this.totalRegistrosGlobal--;
+                this.limpiaTexto();
+                this._swal2.success({
+                  title: 'Registro eliminado'
+                });
+              }
             }
-          }
-        });
+          });
 
-    });
+      });
   }
 
-  verPublicacion(nombreArchivo: string) {
+  verPresentacion(nombreArchivo: string) {
     let token = JSON.parse(localStorage.getItem('token'));
-    window.open(environment.apiUrl + "almacen_archivos/publicaciones/download/" + nombreArchivo + "?access_token=" + token.id, "_blank");
+    window.open(environment.apiUrl + "almacen_archivos/presentaciones/download/" + nombreArchivo + "?access_token=" + token.id, "_blank");
   }
 
 

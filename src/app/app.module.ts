@@ -1,7 +1,7 @@
 import { BrowserModule                          } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID                    } from '@angular/core';
 import { FormsModule                            } from '@angular/forms';
-import { HttpModule, BrowserXhr                 } from '@angular/http';
+import { BrowserXhr, HttpModule                 } from '@angular/http';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
 
