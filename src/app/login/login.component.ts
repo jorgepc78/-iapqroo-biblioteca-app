@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService
   ) {
     this.formLogin = this.formBuilder.group({
-      email: ["publicador@hotmail.com", Validators.required],
+      email: ["visitante@hotmail.com", Validators.required],
       password: ["txfiles", Validators.required]
     });
   }
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
       data => {
         let result = data.json();
         if (result.perfil[0].name == 'visitante')
-          this.route.navigate(['principal/libros']);
+          this.route.navigate(['principal/consultalibros']);
         else if (result.perfil[0].name == 'publicador')
           this.route.navigate(['principal/adminlibros']);
         else if (result.perfil[0].name == 'admin')

@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from '../../core/auth.guard'
-import { LibrosComponent } from './libros.component';
+import { ConsultaLibrosComponent } from './consulta-libros.component';
 
 const routes: Routes = [{
   path: '',
-  component: LibrosComponent,
+  component: ConsultaLibrosComponent,
   canActivate: [AuthGuard]
 }];
 
@@ -14,4 +14,4 @@ const routes: Routes = [{
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class LibrosRoutingModule { }
+export class ConsultaLibrosRoutingModule { }
