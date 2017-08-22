@@ -26,3 +26,6 @@
 .thumbnail {
   border: 0;
 }
+.ng2-pdf-viewer-container .page {
+    background-color: #666 !important;
+}

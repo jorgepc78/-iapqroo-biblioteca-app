@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { Overlay, overlayConfigFactory } from 'angular2-modal';
-//import { Modal, BSModalContext } from 'angular2-modal/plugins/bootstrap';
+import { Router                              } from '@angular/router';
+import { Overlay, overlayConfigFactory       } from 'angular2-modal';
+import { Modal, BSModalContext               } from 'angular2-modal/plugins/bootstrap';
 
-import {
+/*import {
   DialogFormModal,
   DropInPresetBuilder,
   Modal
-} from 'angular2-modal/plugins/vex';
+  } from 'angular2-modal/plugins/vex';*/
 
-import { environment           } from '../../../environments/environment';
-import { ConsultaLibrosService } from './consulta-libros.service';
+import { environment                         } from '../../../environments/environment';
+import { ConsultaLibrosService               } from './consulta-libros.service';
 
 // Declaramos las variables para jQuery
 declare var jQuery: any;
@@ -37,6 +38,7 @@ export class ConsultaLibrosComponent implements OnInit {
   };
 
   constructor(
+    private route: Router, 
     public modal: Modal,
     private consultaLibrosService: ConsultaLibrosService
   ) { }
@@ -174,49 +176,16 @@ export class ConsultaLibrosComponent implements OnInit {
 
   previewDocumento(libro) {
 
-    this.modal.alert()
-      .className('default')
-      .message(`
-              <div class="row">
-                <div class="col-md-12">
-                  <h4>Autor: ${libro.autor}</h4>
-                </div>
-              </div>
-
-              <div class="row">
-                  <div class="col-md-8">
-                      <h4>Extracto:</h4>
-                      <div class="text-justify">
-                          <span>${libro.descripcion}</span>
-                      </div>
-                  </div>
-                  <div class="col-md-4">
-
-                      <div class="row">
-                        <div class="col-md-12">
-                          <img src="${libro.portada}" alt="" height="350">
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-md-12">
-                            <button type="button" (click)="regresar()" class="btn btn-circle grey-salsa btn-outline">Cancelar</button>
-                        </div>
-                      </div>
-
-                  </div>
-              </div>
-              `)
-      .showCloseButton(true)
-      .open();
-      /*const dialogRef = this.modal.alert()
+    const dialogRef = this.modal.confirm()
         .size('lg')
         .isBlocking(true)
         .showClose(false)
         .keyboard(27)
         .title(libro.nombre)
-        .okBtn('Cerrar')
+        .okBtn('Ver libro')
         .okBtnClass('btn btn-circle btn-success')
+        .cancelBtn('Cerrar')
+        .cancelBtnClass('btn btn-circle btn-default')
         .body(`
               <div class="row">
                 <div class="col-md-12">
@@ -228,32 +197,37 @@ export class ConsultaLibrosComponent implements OnInit {
                   <div class="col-md-8">
                       <h4>Extracto:</h4>
                       <div class="text-justify">
-                          <span>${libro.descripcion}</span>
+                          <span [innerHTML]="">${libro.descripcion}</span>
                       </div>
                   </div>
                   <div class="col-md-4">
-
-                      <div class="row">
-                        <div class="col-md-12">
                           <img src="${libro.portada}" alt="" height="350">
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-md-12">
-                            <button type="button" (click)="regresar()" class="btn btn-circle grey-salsa btn-outline">Cancelar</button>
-                        </div>
-                      </div>
-
                   </div>
               </div>
               `)
-        .open();*/
+        .open();
 
         /*dialogRef
           .then(dialogRef => {
-            dialogRef.result.then(result => alert(`The result is: ${result}`));
-          });*/
+            dialogRef.result.then(result => { 
+              this.abrirDocumento(libro.idLibro);
+                alert(`The result is: ${result}`) 
+            });
+          })
+          .catch(() => { });*/
+
+        dialogRef
+          .then(result => { 
+            result.result.then(() => { 
+              this.abrirDocumento(libro.idLibro);
+            }, 
+            () => { }); 
+          });
+  }
+
+  abrirDocumento(idLibro) {
+    console.log("entra: " + idLibro);
+    this.route.navigate(['principal/documento/libro', idLibro]);
   }
 
 }

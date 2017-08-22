@@ -22,7 +22,8 @@ export const routes: Routes = [
       { path: 'adminpresentaciones' , loadChildren: './presentaciones/admin-presentaciones/admin-presentaciones.module#AdminPresentacionesModule' } ,
       { path: 'detallepresentacion' , loadChildren: './presentaciones/edita-presentacion/edita-presentacion.module#EditaPresentacionModule' }       ,
 
-      { path: 'consultalibros'      , loadChildren: './libros/consulta-libros/consulta-libros.module#ConsultaLibrosModule' }
+      { path: 'consultalibros'      , loadChildren: './libros/consulta-libros/consulta-libros.module#ConsultaLibrosModule' },
+      { path: 'documento'           , loadChildren: './visor-documentos/visor-documentos.module#VisorDocumentosModule' }
     ]
   }
   //{ path: '**', redirectTo: 'login', pathMatch: 'full' }
