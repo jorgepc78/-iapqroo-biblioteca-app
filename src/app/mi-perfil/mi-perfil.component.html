@@ -23,21 +23,18 @@
                         <!-- <form role="form" action="#"> -->
                             <div class="form-group">
                                 <label class="control-label">Nombre</label>
-                                <input type="text" formControlName="nombreCompleto" class="form-control" /> </div>
+                                <input type="text" formControlName="nombre" class="form-control" /> </div>
                             <div class="form-group">
-                                <label class="control-label">No. empleado</label>
-                                <input type="text"  formControlName="codigoEmpleado" class="form-control" /> </div>
+                                <label class="control-label">Apellido Paterno</label>
+                                <input type="text"  formControlName="apellidoPaterno" class="form-control" /> </div>
                             <div class="form-group">
-                                <label class="control-label">RFC (Nombre de usuario)</label>
-                                <input type="text"  formControlName="rfc" class="form-control" /> </div>
-                            <div class="form-group">
-                                <label class="control-label">Departamento</label>
-                                <input type="text"  formControlName="departamento" class="form-control" /> </div>
+                                <label class="control-label">Apellido Materno</label>
+                                <input type="text"  formControlName="apellidoMaterno" class="form-control" /> </div>
                             <div class="form-group">
                                 <label class="control-label">Email</label>
                                 <input type="email" formControlName="email" class="form-control" /> </div>
-                            <div class="margiv-top-10">
-                                <button type="submit" [disabled]="!formPerfil.valid" class="btn green-haze">Guardar cambios</button>
+                            <div class="margiv-top-10 text-center">
+                                <button type="submit" [disabled]="!formPerfil.valid" class="btn btn-circle green">Guardar cambios</button>
                             </div>
                         </form>
                     </div>
@@ -46,16 +43,13 @@
                     <div class="tab-pane" id="tab_1_3">
                         <form [formGroup]="formPassword" (ngSubmit)="actualizaPassword()">
                             <div class="form-group">
-                                <label class="control-label">Contrase&ntilde;a anterior</label>
-                                <input type="password" formControlName="anterior" class="form-control" /> </div>
-                            <div class="form-group">
                                 <label class="control-label">Nueva contrase&ntilde;a</label>
                                 <input type="password" formControlName="contrasena" class="form-control" /> </div>
                             <div class="form-group">
                                 <label class="control-label">Confirmar contrase&ntilde;a</label>
                                 <input type="password" formControlName="confcontrasena" class="form-control" /> </div>
-                            <div class="margin-top-10">
-                            <button type="submit" [disabled]="!formPassword.valid" class="btn green-haze">Cambiar</button>
+                            <div class="margin-top-10 text-center">
+                            <button type="submit" [disabled]="!formPassword.valid" class="btn btn-circle green">Cambiar</button>
                             </div>
                         </form>
                     </div>

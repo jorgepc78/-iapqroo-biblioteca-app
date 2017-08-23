@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { SweetAlertService } from 'ngx-sweetalert2';
+import { NgModule              } from '@angular/core';
+import { CommonModule          } from '@angular/common';
+import { ReactiveFormsModule   } from '@angular/forms';
+import { SweetAlertService     } from 'ngx-sweetalert2';
 
-import { MiPerfilComponent } from './mi-perfil.component';
+import { MiPerfilComponent     } from './mi-perfil.component';
 import { MiPerfilRoutingModule } from './mi-perfil-routing.module';
 
-import { PerfilService } from '../_services/perfil.service';
+import { MiPerfilService       } from './mi-perfil.service';
 
 @NgModule({
   imports: [
@@ -15,6 +15,6 @@ import { PerfilService } from '../_services/perfil.service';
     MiPerfilRoutingModule
   ],
   declarations: [MiPerfilComponent],
-  providers: [SweetAlertService, PerfilService]
+  providers: [SweetAlertService, MiPerfilService]
 })
 export class MiPerfilModule { }

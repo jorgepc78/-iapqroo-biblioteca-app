@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit                  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SweetAlertService } from 'ngx-sweetalert2';
-import 'rxjs/add/operator/finally';
+import { SweetAlertService                  } from 'ngx-sweetalert2';
 
-import { PerfilService } from '../_services/perfil.service';
+import { MiPerfilService                    } from './mi-perfil.service';
+import { UsuarioDataService                 } from '../core/usuario-data.service';
 
 @Component({
   selector: 'app-mi-perfil',
@@ -14,47 +14,62 @@ export class MiPerfilComponent implements OnInit {
 
   private formPerfil: FormGroup;
   private formPassword: FormGroup;
+  private usuario: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private _swal2: SweetAlertService,
-    private perfilService: PerfilService
+    private miPerfilService: MiPerfilService,
+    private usuarioDataService: UsuarioDataService
   ) { 
-    let usuario = JSON.parse(localStorage.getItem('usuario'));
 
     this.formPerfil = this.formBuilder.group({
-      nombreCompleto: [{ value: (usuario.apellidoPaterno + ' ' + usuario.apellidoMaterno + ' ' + usuario.nombre), disabled: true}, Validators.required],
-      codigoEmpleado: [{value: usuario.codigoEmpleado, disabled: true}, Validators.required],
-      rfc: [{ value: usuario.rfc, disabled: true }, Validators.required],
-      departamento: [{ value: usuario.departamento, disabled: true }, Validators.required],
-      email: [{ value: usuario.email, disabled: false }, Validators.required]
+      nombre:          [ { value: '', disabled: false }, Validators.required],
+      apellidoPaterno: [ { value: '', disabled: false }, Validators.required],
+      apellidoMaterno: [ { value: '', disabled: false }, Validators.required],
+      email:           [ { value: '', disabled: false }, Validators.required]
     });
 
     this.formPassword = this.formBuilder.group({
-      anterior: ['', Validators.required],
-      contrasena: ['', Validators.required],
-      confcontrasena: ['', Validators.required],
+      contrasena:     [ '', Validators.required],
+      confcontrasena: [ '', Validators.required]
     });
   }
 
   ngOnInit() {
+    this.usuarioDataService
+      .getDatosUsuario()
+      .then((data:any) => {
+        this.usuario = data;
+        this.formPerfil.setValue({
+          nombre          : data.nombre,
+          apellidoPaterno : data.apellidoPaterno,
+          apellidoMaterno : data.apellidoMaterno,
+          email           : data.email
+        });        
+      });
   }
 
   actualizaPerfil() {
-    this.perfilService
-      .actualizaPerfil(this.formPerfil.value.email)
-      .finally(() => {
-        // Execute after graceful or exceptionally termination
-        //loading.dismiss();
-      })
+    this.usuario.nombre = this.formPerfil.value.nombre;
+    this.usuario.apellidoPaterno = this.formPerfil.value.apellidoPaterno;
+    this.usuario.apellidoMaterno = this.formPerfil.value.apellidoMaterno;
+    this.usuario.email = this.formPerfil.value.email;
+
+    this.miPerfilService
+      .actualizaPerfil(this.usuario)
       .subscribe(
       data => {
-        //console.log(data.json());
         this._swal2.success({ title: 'Datos de perfl actualizado' });
       },
       err => {
-        let error = err.json().error;
-        console.log(err.json());
+        if (err.json().error == undefined)
+          console.log("Error de conexion");
+        else {
+          let error = err.json().error;
+          if (error.status == 401)
+            console.log("error de autorizacion");
+        }
       });
 
   }
@@ -63,12 +78,8 @@ export class MiPerfilComponent implements OnInit {
   actualizaPassword() {
     if(this.formPassword.value.contrasena == this.formPassword.value.confcontrasena)
     {
-      this.perfilService
-        .actualizaPassword(this.formPassword.value.anterior, this.formPassword.value.contrasena)
-        .finally(() => {
-          // Execute after graceful or exceptionally termination
-          //loading.dismiss();
-        })
+      this.miPerfilService
+        .actualizaPassword(this.formPassword.value.contrasena)
         .subscribe(
         data => {
           this._swal2.success({ title: 'Se ha cambiado La contraseña' });
@@ -76,16 +87,14 @@ export class MiPerfilComponent implements OnInit {
         },
         err => {
           let error = err.json().error;
-          //console.log(error);
           if (error.statusCode == 400) {
-            console.error("La contraseña actual no es la correcta");
             this._swal2.error({ title: 'La contraseña actual no es la correcta' });
           }
         });
     }
     else
     {
-        this._swal2.error({ title: 'Las nuevas contraseñas no coinciden' });
+        this._swal2.error({ title: 'Las contraseñas no coinciden' });
     }
     
   }
