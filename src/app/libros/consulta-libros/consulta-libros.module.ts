@@ -1,5 +1,6 @@
 import { NgModule                        } from '@angular/core';
 import { CommonModule                    } from '@angular/common';
+import { FormsModule                     } from '@angular/forms';
 
 import { NgxPaginationModule             } from 'ngx-pagination';
 import { PerfectScrollbarModule          } from 'ngx-perfect-scrollbar';
@@ -10,7 +11,6 @@ import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 //import { VexModalModule } from 'angular2-modal/plugins/vex';
 
 import { ConsultaLibrosRoutingModule     } from './consulta-libros-routing.module';
-import { ListaTemasModule                } from '../../shared/lista-temas/lista-temas.module';
 import { ConsultaLibrosComponent         } from './consulta-libros.component';
 import { ConsultaLibrosService           } from './consulta-libros.service';
 
@@ -19,8 +19,7 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 @NgModule({
-  imports: [
-    CommonModule, ListaTemasModule, ConsultaLibrosRoutingModule, NgxPaginationModule, PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG), ModalModule.forRoot(), BootstrapModalModule],
+  imports: [CommonModule, FormsModule, ConsultaLibrosRoutingModule, NgxPaginationModule, PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG), ModalModule.forRoot(), BootstrapModalModule],
     declarations: [ConsultaLibrosComponent],
     providers: [ConsultaLibrosService]
 })

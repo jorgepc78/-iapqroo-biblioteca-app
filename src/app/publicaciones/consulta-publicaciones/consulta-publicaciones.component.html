@@ -13,6 +13,7 @@
                                 </a>
                             </li>
                         </ul>
+                        <!-- END SIDEBAR MENU -->
                     </div>
     </div>
     <div class="col-md-9">
@@ -21,7 +22,7 @@
                 <!-- END PAGE BREADCRUMB -->
                 <!-- BEGIN PAGE BASE CONTENT -->
                 <div class="portfolio-content portfolio-1">
-                    
+
                     <div class="row" style="margin-bottom: 15px;">
                         <div class="col-md-4 m-grid-col-left">
                                     <div class="input-group">
@@ -35,38 +36,38 @@
                                     <pagination-controls (pageChange)="cambiaPagina($event)" id="server" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
                         </div>
                     </div>
-                    
+
                     <perfect-scrollbar>
                         <div class="alto-scrollbar">
                                 <div *ngIf="listaRegistros" id="js-grid-juicy-projects" class="cbp">
-                                        <div *ngFor="let libro of listaRegistros | paginate: { id: 'server', itemsPerPage: tablaListaRegistros.registrosPorPagina, currentPage: tablaListaRegistros.paginaActual, totalItems: tablaListaRegistros.totalElementos }" class="cbp-item {{libro.idCategoria}}">
+                                        <div *ngFor="let publicacion of listaRegistros | paginate: { id: 'server', itemsPerPage: tablaListaRegistros.registrosPorPagina, currentPage: tablaListaRegistros.paginaActual, totalItems: tablaListaRegistros.totalElementos }" class="cbp-item {{publicacion.idCategoria}}">
                                             <div class="cbp-caption">
                                                 <div class="cbp-caption-defaultWrap">
-                                                    <img [src]="libro.portada" alt="" style="height: 400px;"> </div>
+                                                    <img [src]="publicacion.portada" alt="" style="height: 400px;"> </div>
                                                 <div class="cbp-caption-activeWrap">
                                                     <div class="cbp-l-caption-alignCenter">
                                                         <div class="cbp-l-caption-body">
                                                             <div class="row" style="padding: 0 10px 15px 10px;">
                                                                 <div class="col-md-12">
-                                                                    <span style="color:#bfbfbf; margin-bottom: 5px;">{{libro.autor}}</span>
+                                                                    <span style="color:#bfbfbf; margin-bottom: 5px;">{{publicacion.autor}}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="row" style="padding: 0 10px 15px 10px;">
                                                                 <div class="col-md-12">
-                                                                    <span style="color:#fff;">{{libro.nombre}}</span>
+                                                                    <span style="color:#fff;">{{publicacion.nombre}}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <button class="btn btn-circle red uppercase" type="button" (click)="previewDocumento(libro)">Detalle</button>
+                                                                    <button class="btn btn-circle red uppercase" type="button" (click)="previewDocumento(publicacion)">Detalle</button>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="cbp-l-grid-projects-title uppercase text-center uppercase text-center"><span>{{libro.nombre}}</span></div>
-                                            <div class="cbp-l-grid-projects-desc uppercase text-center uppercase text-center">{{libro.categoria}}</div>
+                                            <div class="cbp-l-grid-projects-title uppercase text-center uppercase text-center"><span>{{publicacion.nombre}}</span></div>
+                                            <div class="cbp-l-grid-projects-desc uppercase text-center uppercase text-center">{{publicacion.categoria}}</div>
                                         </div>
                                 </div>
                         </div>

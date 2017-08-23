@@ -1,0 +1,23 @@
+.embed-responsive {
+  padding-bottom:40%
+}
+@media (min-height: 599px) {
+  .embed-responsive {
+    padding-bottom:32%
+  }
+}
+@media (min-height: 799px) {
+  .embed-responsive {
+    padding-bottom:38%
+  }
+}
+@media (min-height: 899px) {
+  .embed-responsive {
+    padding-bottom:40%
+  }
+}
+@media (min-height: 1021px) {
+  .embed-responsive {
+    padding-bottom:40%
+  }
+}

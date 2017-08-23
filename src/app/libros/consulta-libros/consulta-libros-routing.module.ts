@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule                } from '@angular/core';
+import { Routes, RouterModule    } from '@angular/router';
 
-import { AuthGuard } from '../../core/auth.guard'
+import { AuthGuard               } from '../../core/auth.guard'
 import { ConsultaLibrosComponent } from './consulta-libros.component';
 
 const routes: Routes = [{

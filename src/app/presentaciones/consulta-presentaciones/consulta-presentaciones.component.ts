@@ -6,19 +6,18 @@ import { DomSanitizer, SafeHtml              } from '@angular/platform-browser';
 import { SecurityContext                     } from '@angular/core';
 
 import { environment                         } from '../../../environments/environment';
-import { ConsultaLibrosService               } from './consulta-libros.service';
+import { ConsultaPresentacionesService       } from './consulta-presentaciones.service';
 
 // Declaramos las variables para jQuery
 declare var jQuery: any;
 declare var $: any;
 
-
 @Component({
-  selector: 'app-consulta-libros',
-  templateUrl: './consulta-libros.component.html',
-  styleUrls: ['./consulta-libros.component.css']
+  selector: 'app-consulta-presentaciones',
+  templateUrl: './consulta-presentaciones.component.html',
+  styleUrls: ['./consulta-presentaciones.component.css']
 })
-export class ConsultaLibrosComponent implements OnInit {
+export class ConsultaPresentacionesComponent implements OnInit {
 
   public listaCategorias: any = [];
   public categoriaActiva: number = 0;
@@ -36,19 +35,18 @@ export class ConsultaLibrosComponent implements OnInit {
   };
 
   constructor(
-    private route: Router, 
+    private route: Router,
     public modal: Modal,
     private sanitizer: DomSanitizer,
-    private consultaLibrosService: ConsultaLibrosService
+    private consultaPresentacionesService: ConsultaPresentacionesService
   ) { }
 
   ngOnInit() {
 
-    this.consultaLibrosService
-      .getCategLibros()
+    this.consultaPresentacionesService
+      .getCategPresentaciones()
       .subscribe(
       data => {
-
         data.json().map(record => {
           this.listaCategorias.push({
             idCategoria: record.idCategoria,
@@ -57,7 +55,6 @@ export class ConsultaLibrosComponent implements OnInit {
             icono: record.idCategoria == 0 ? 'layers' : 'book-open'
           });
         });
-
       },
       err => {
         if (err.json().error == undefined)
@@ -69,8 +66,8 @@ export class ConsultaLibrosComponent implements OnInit {
         }
       });
 
-    this.consultaLibrosService
-      .getTotalLibros(this.tablaListaRegistros.condicion)
+    this.consultaPresentacionesService
+      .getTotalPresentaciones(this.tablaListaRegistros.condicion)
       .subscribe(
       data => {
         this.tablaListaRegistros.totalElementos = data.json().count;
@@ -91,46 +88,45 @@ export class ConsultaLibrosComponent implements OnInit {
 
 
   recargaPlugin() {
-    if(this.cubeportfolio !== undefined)
+    if (this.cubeportfolio !== undefined)
       jQuery("#js-grid-juicy-projects").cubeportfolio('destroy');
-    
+
     setTimeout(() => {
-        // init cubeportfolio
-        this.cubeportfolio = $('#js-grid-juicy-projects').cubeportfolio({
-          filters: '#js-filters-juicy-projects',
-          layoutMode: 'grid',
-          defaultFilter: '*',
-          animationType: 'quicksand',
-          gapHorizontal: 35,
-          gapVertical: 30,
-          gridAdjustment: 'responsive',
-          mediaQueries: [
-            {width: 1500, cols: 5},
-            {width: 1100, cols: 4}, 
-            {width: 800, cols: 4},
-            {width: 480, cols: 1},
-            {width: 320, cols: 1}
-          ],
-          caption: 'overlayBottomAlong',
-          displayType: 'sequentially',
-          displayTypeSpeed: 80,
-        });
+      // init cubeportfolio
+      this.cubeportfolio = $('#js-grid-juicy-projects').cubeportfolio({
+        filters: '#js-filters-juicy-projects',
+        layoutMode: 'grid',
+        defaultFilter: '*',
+        animationType: 'quicksand',
+        gapHorizontal: 35,
+        gapVertical: 30,
+        gridAdjustment: 'responsive',
+        mediaQueries: [
+          { width: 1500, cols: 5 },
+          { width: 1100, cols: 3 },
+          { width: 800, cols: 3 },
+          { width: 480, cols: 1 },
+          { width: 320, cols: 1 }
+        ],
+        caption: 'overlayBottomAlong',
+        displayType: 'sequentially',
+        displayTypeSpeed: 80,
+      });
     }, 300);
   }
 
 
-  filtraCategoria(id:number) {
+  filtraCategoria(id: number) {
     if (id == -1)
       return;
-    
-    if (this.mostrarResBusqueda == true)
-    {
+
+    if (this.mostrarResBusqueda == true) {
       this.listaCategorias.splice(-1, 1);
       this.mostrarResBusqueda = false;
       this.textoBuscar = '';
     }
 
-    if(id == 0) {
+    if (id == 0) {
       this.tablaListaRegistros.condicion = {};
       this.tablaListaRegistros.totalElementos = this.totalRegistrosGlobal;
     }
@@ -141,8 +137,8 @@ export class ConsultaLibrosComponent implements OnInit {
     this.categoriaActiva = id;
 
     this.tablaListaRegistros.paginaActual = 1;
-    this.consultaLibrosService
-      .getTotalLibros(this.tablaListaRegistros.condicion)
+    this.consultaPresentacionesService
+      .getTotalPresentaciones(this.tablaListaRegistros.condicion)
       .subscribe(
       data => {
         this.tablaListaRegistros.totalElementos = data.json().count;
@@ -163,8 +159,8 @@ export class ConsultaLibrosComponent implements OnInit {
   buscarDocumento() {
     this.tablaListaRegistros.condicion = { nombre: { like: "%25" + this.textoBuscar + "%25" } };
     this.tablaListaRegistros.paginaActual = 1;
-    this.consultaLibrosService
-      .getTotalLibros(this.tablaListaRegistros.condicion)
+    this.consultaPresentacionesService
+      .getTotalPresentaciones(this.tablaListaRegistros.condicion)
       .subscribe(
       data => {
         this.tablaListaRegistros.totalElementos = data.json().count;
@@ -194,15 +190,15 @@ export class ConsultaLibrosComponent implements OnInit {
 
   cambiaPagina(page: number) {
     this.tablaListaRegistros.paginaActual = page;
-    this.consultaLibrosService
-      .getListaLibros(this.tablaListaRegistros.condicion, this.tablaListaRegistros.registrosPorPagina, this.tablaListaRegistros.paginaActual)
+    this.consultaPresentacionesService
+      .getListaPresentaciones(this.tablaListaRegistros.condicion, this.tablaListaRegistros.registrosPorPagina, this.tablaListaRegistros.paginaActual)
       .subscribe(
       data => {
         let datos = data.json();
         this.listaRegistros = [];
         datos.map(record => {
           this.listaRegistros.push({
-            idLibro: record.idLibro,
+            idPresentacion: record.idPresentacion,
             portada: (record.portada == '' ? 'assets/img/portada_no_disponible.jpg' : record.portada),
             nombre: record.nombre,
             autor: record.autor,
@@ -225,11 +221,11 @@ export class ConsultaLibrosComponent implements OnInit {
   }
 
 
-  previewDocumento(libro) {
+  previewDocumento(presentacion) {
     let codigo = `
               <div class="row">
                 <div class="col-md-12">
-                  <h4>Autor: ${libro.autor}</h4>
+                  <h4>Autor: ${presentacion.autor}</h4>
                 </div>
               </div>
 
@@ -237,39 +233,39 @@ export class ConsultaLibrosComponent implements OnInit {
                   <div class="col-md-8">
                       <h4>Extracto:</h4>
                       <div class="text-justify">
-                          <div>${libro.descripcion}</div>
+                          <div>${presentacion.descripcion}</div>
                       </div>
                   </div>
                   <div class="col-md-4">
-                          <img src="${libro.portada}" alt="" height="350">
+                          <img src="${presentacion.portada}" alt="" height="350">
                   </div>
               </div>
               `;
 
     const dialogRef = this.modal.confirm()
-        .size('lg')
-        .isBlocking(true)
-        .showClose(false)
-        .keyboard(27)
-        .title(libro.nombre)
-        .okBtn('Ver libro')
-        .okBtnClass('btn btn-circle btn-success')
-        .cancelBtn('Cerrar')
-        .cancelBtnClass('btn btn-circle btn-default')
-        .body(codigo)
-        .open();
+      .size('lg')
+      .isBlocking(true)
+      .showClose(false)
+      .keyboard(27)
+      .title(presentacion.nombre)
+      .okBtn('Ver presentación')
+      .okBtnClass('btn btn-circle btn-success')
+      .cancelBtn('Cerrar')
+      .cancelBtnClass('btn btn-circle btn-default')
+      .body(codigo)
+      .open();
 
-        dialogRef
-          .then(result => { 
-            result.result.then(() => { 
-              this.abrirDocumento(libro.idLibro);
-            }, 
-            () => { }); 
-          });
+    dialogRef
+      .then(result => {
+        result.result.then(() => {
+          this.abrirDocumento(presentacion.idPresentacion);
+        },
+          () => { });
+      });
   }
 
-  abrirDocumento(idLibro) {
-    this.route.navigate(['principal/documento/libro', idLibro]);
+  abrirDocumento(idPresentacion) {
+    this.route.navigate(['principal/documento/presentacion', idPresentacion]);
   }
 
 }

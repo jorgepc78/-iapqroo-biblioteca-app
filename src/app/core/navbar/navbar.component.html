@@ -54,17 +54,17 @@
                             <a [routerLink]="['/principal/adminpresentaciones']"><i class="icon-wallet"></i> Admin Presentaciones</a>
                         </li>
 
-                        <li *ngIf="perfilMenu.verLibros" uiSrefActive="active">
-                            <a [routerLink]="['/principal/libros']"><i class="icon-wallet"></i> Libros</a>
+                        <li *ngIf="perfilMenu.verLibros" routerLinkActive="active">
+                            <a [routerLink]="['/principal/consultalibros']"><i class="icon-wallet"></i> Libros</a>
                         </li>
-                        <li *ngIf="perfilMenu.verRevistas" uiSrefActive="active">
-                            <a [routerLink]="['/principal/revistas']"><i class="icon-wallet"></i> Revistas</a>
+                        <li *ngIf="perfilMenu.verRevistas" routerLinkActive="active">
+                            <a [routerLink]="['/principal/consultarevistas']"><i class="icon-wallet"></i> Revistas</a>
                         </li>
-                        <li *ngIf="perfilMenu.verPublica" uiSrefActive="active">
-                            <a [routerLink]="['/principal/publicaciones']"><i class="icon-wallet"></i> Publicaciones</a>
+                        <li *ngIf="perfilMenu.verPublica" routerLinkActive="active">
+                            <a [routerLink]="['/principal/consultapublicaciones']"><i class="icon-wallet"></i> Publicaciones</a>
                         </li>
-                        <li *ngIf="perfilMenu.verPresenta" uiSrefActive="active">
-                            <a [routerLink]="['/principal/presentaciones']"><i class="icon-wallet"></i> Presentaciones</a>
+                        <li *ngIf="perfilMenu.verPresenta" routerLinkActive="active">
+                            <a [routerLink]="['/principal/consultapresentaciones']"><i class="icon-wallet"></i> Presentaciones</a>
                         </li>
                     </ul>
                 </div>

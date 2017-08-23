@@ -7,7 +7,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 @Injectable()
-export class ConsultaLibrosService {
+export class ConsultaPublicacionesService {
 
   private headers_get = new Headers({ 'Content-Type': 'text/plain' });
   private headers_post = new Headers({ 'Content-Type': 'application/json' });
@@ -17,12 +17,12 @@ export class ConsultaLibrosService {
   ) { }
 
 
-  getCategLibros(): Observable<any> {
+  getCategPublicaciones(): Observable<any> {
 
     let token = JSON.parse(localStorage.getItem('token'));
 
     return this.http
-      .get(environment.apiUrl + 'Libros/categorias_total?access_token=' + token.id, { headers: this.headers_get })
+      .get(environment.apiUrl + 'Publicaciones/categorias_total?access_token=' + token.id, { headers: this.headers_get })
       .map((response: Response) => {
         return response;
       })
@@ -30,11 +30,11 @@ export class ConsultaLibrosService {
   }
 
 
-  getTotalLibros(condicion: any): Observable<any> {
+  getTotalPublicaciones(condicion: any): Observable<any> {
 
     let token = JSON.parse(localStorage.getItem('token'));
     return this.http
-      .get(environment.apiUrl + 'Libros/count?where=' + JSON.stringify(condicion) + '&access_token=' + token.id, { headers: this.headers_get })
+      .get(environment.apiUrl + 'Publicaciones/count?where=' + JSON.stringify(condicion) + '&access_token=' + token.id, { headers: this.headers_get })
       .map((response: Response) => {
         return response;
       })
@@ -42,7 +42,7 @@ export class ConsultaLibrosService {
   }
 
 
-  getListaLibros(condicion: any, registrosPorPagina: number, paginaActual: number): Observable<any> {
+  getListaPublicaciones(condicion: any, registrosPorPagina: number, paginaActual: number): Observable<any> {
 
     let token = JSON.parse(localStorage.getItem('token'));
     let skip = (paginaActual - 1) * registrosPorPagina;
@@ -56,7 +56,7 @@ export class ConsultaLibrosService {
     };
 
     return this.http
-      .get(environment.apiUrl + 'Libros/?filter=' + JSON.stringify(filter) + '&access_token=' + token.id, { headers: this.headers_get })
+      .get(environment.apiUrl + 'Publicaciones/?filter=' + JSON.stringify(filter) + '&access_token=' + token.id, { headers: this.headers_get })
       .map((response: Response) => {
         return response;
       })

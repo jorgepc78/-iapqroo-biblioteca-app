@@ -572,7 +572,7 @@ border-radius: 4px;
 }
 @media (min-height: 899px) {
   .alto-scrollbar {
-    height: 740px;
+    height: 750px;
   }
 }
 @media (min-height: 1021px) {
