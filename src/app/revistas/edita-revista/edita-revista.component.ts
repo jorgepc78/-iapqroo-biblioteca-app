@@ -40,7 +40,7 @@ export class EditaRevistaComponent implements OnInit {
     this.formRegistro = this.formBuilder.group({
       nombre: ["", Validators.required],
       autor: ["", Validators.required],
-      idCategoria: [0, Validators.required],
+      idCategoria:[0,[Validators.required, Validators.min(1)]],
       descripcion: ["", Validators.required],
       portada: ["", Validators.required],
       nombreArchivo: ["", Validators.required]

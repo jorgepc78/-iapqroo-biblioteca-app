@@ -12,7 +12,10 @@
 <div class="row text-center">
   <div class="col-md-12">
 
-      <div class='embed-responsive'>
+      <div *ngIf="msgError">
+        <h2>El archivo pdf no est&aacute; disponible.</h2> 
+      </div>
+      <div *ngIf="!msgError" class='embed-responsive'>
           <object *ngIf="pdfFile" [data]="pdfFile" type='application/pdf' width='100%' height='100%'>
               <p>It appears you don't have a PDF plugin for this browser.</p> 
           </object>

@@ -41,7 +41,7 @@
                                 <div class="form-group last">
                                     <label class="col-md-2 control-label">Descripci&oacute;n</label>
                                     <div class="col-md-10">
-                                        <textarea class="form-control input-circle" formControlName="descripcion" placeholder="Autor" rows="14"></textarea>
+                                        <textarea [froalaEditor] class="form-control input-circle" formControlName="descripcion" placeholder="Descripci&oacute;n" rows="10"></textarea>
                                         <span *ngIf="formRegistro.controls['descripcion'].invalid && (formRegistro.controls['descripcion'].autor || formRegistro.controls['descripcion'].touched)" class="help-block font-red-mint">Este campo es requerido.</span>
                                     </div>
                                 </div>

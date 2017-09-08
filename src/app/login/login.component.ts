@@ -2,9 +2,10 @@ import { Component, OnInit                  } from '@angular/core';
 import { Router                             } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { LoginService                       } from './login.service';
+
 import 'rxjs/add/operator/finally';
 
-import { LoginService                       } from './login.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService
   ) {
     this.formLogin = this.formBuilder.group({
-      email: ["visitante@hotmail.com", Validators.required],
+      email: ["publicador@hotmail.com", Validators.compose([Validators.required, Validators.pattern("[^ @]*@[^ @]*")])],
       password: ["txfiles", Validators.required]
     });
   }
@@ -53,7 +54,13 @@ export class LoginComponent implements OnInit {
       err => {
         let error = err.json().error;
         //console.log(err.json().error);
-        if (error.statusCode == 401)
+        if (error.code == 'LOGIN_FAILED_EMAIL_NOT_VERIFIED')
+        {
+            this.txtMsgError = 'El correo electrónico no ha sido verificado';
+            this.colorMsgError = 'danger';
+            this.mostrarMsgError = true;
+        }
+        else if (error.code == 'LOGIN_FAILED')
         {
             this.txtMsgError = 'Nombre de usuario/contraseña incorrectos';
             this.colorMsgError = 'danger';

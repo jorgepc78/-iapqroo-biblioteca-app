@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col-md-offset-4 col-sm-offset-1 col-md-4 col-sm-10 col-xs-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-notebook font-dark"></i>
+                    <span class="caption-subject bold uppercase"> Categor&iacute;as de {{tipo}}</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-circle green" (click)="nuevoRegistro()">
+                        <i class="fa fa-plus"></i> Nuevo registro </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table" style="border-bottom: 1px solid #ddd;">
+                        <thead>
+                            <tr>
+                                <th> Descripci&oacute;n </th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="odd gradeX pointer" *ngFor="let registro of listaRegistros | paginate: { itemsPerPage: tablaListaRegistros.registrosPorPagina, currentPage: tablaListaRegistros.paginaActual }">
+                                <td> {{registro.descripcion}} </td>
+                                <td class="text-right">
+                                  <div class="clearfix">
+                                      <button (click)="editaRegistro(registro)" class="btn btn-circle btn-sm green-haze"><i class="fa fa-pencil"></i> Editar</button>
+                                      <button (click)="eliminaRegistro(registro)" class="btn btn-circle btn-sm red"><i class="fa fa-trash-o"></i> Eliminar</button>
+                                  </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row" style="margin: 10px 0 0 0;">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-8 text-center">
+                            <pagination-controls (pageChange)="tablaListaRegistros.paginaActual = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+                        </div>
+                        <div class="col-md-3">
+                        <span>Total registros: {{tablaListaRegistros.totalElementos}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>

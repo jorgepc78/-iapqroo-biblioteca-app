@@ -36,7 +36,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="odd gradeX pointer" *ngFor="let registro of listaRegistros | paginate: { id: 'server', itemsPerPage: tablaListaRegistros.registrosPorPagina, currentPage: tablaListaRegistros.paginaActual, totalItems: tablaListaRegistros.totalElementos }" (click)="muestraDatosRegistro(registro)" [class.active]="registro == registroSeleccionado">
+                            <tr class="odd gradeX pointer" *ngFor="let registro of listaRegistros | paginate: { id: 'server', itemsPerPage: tablaListaRegistros.registrosPorPagina, currentPage: tablaListaRegistros.paginaActual, totalItems: tablaListaRegistros.totalElementos }" (click)="muestraDatosRegistro(registro)" [class.active]="registro.idLibro == registroSeleccionado.idLibro">
                                 <td> {{registro.nombre}} </td>
                                 <td> {{ (registro.categoria_pertenece == undefined ? '' : registro.categoria_pertenece.descripcion)}} </td>
                             </tr>
@@ -92,7 +92,7 @@
                     <div class="col-md-3 name"> Descripci&oacute;n: </div>
                     <div class="col-md-9 value"> 
                       <perfect-scrollbar>
-                        <div style="height: 200px;">{{registroSeleccionado.descripcion}}</div>
+                        <div style="height: 200px;" [innerHTML]="registroSeleccionado.descripcion"></div>
                       </perfect-scrollbar>
                     </div>
                 </div>

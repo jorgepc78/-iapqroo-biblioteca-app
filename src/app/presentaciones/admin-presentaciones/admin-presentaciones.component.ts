@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { SweetAlertService } from 'ngx-sweetalert2';
-import { environment } from '../../../environments/environment';
+import { Component, OnInit          } from '@angular/core';
+import { Router                     } from '@angular/router';
+import { DomSanitizer               } from '@angular/platform-browser'
+import { SweetAlertService          } from 'ngx-sweetalert2';
+import { environment                } from '../../../environments/environment';
 import { AdminPresentacionesService } from './admin-presentaciones.service';
 
 @Component({
@@ -26,6 +27,7 @@ export class AdminPresentacionesComponent implements OnInit {
 
   constructor(
     private route: Router,
+    private sanitizer: DomSanitizer,
     private _swal2: SweetAlertService,
     private adminPresentacionesService: AdminPresentacionesService
   ) { }
@@ -73,7 +75,19 @@ export class AdminPresentacionesComponent implements OnInit {
 
 
   muestraDatosRegistro(registro) {
-    this.registroSeleccionado = registro;
+    if(registro !== undefined)
+    {
+        this.registroSeleccionado = {
+          idPresentacion: registro.idPresentacion,
+          nombre: registro.nombre,
+          autor: registro.autor,
+          descripcion: this.sanitizer.bypassSecurityTrustHtml(registro.descripcion),
+          idCategoria: registro.idCategoria,
+          nombreArchivo: registro.nombreArchivo,
+          portada: registro.portada,
+          categoria_pertenece: registro.categoria_pertenece === undefined ? {} : registro.categoria_pertenece
+        };      
+    }
   }
 
 

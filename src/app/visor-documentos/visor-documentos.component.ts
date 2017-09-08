@@ -15,6 +15,7 @@ export class VisorDocumentosComponent implements OnInit {
 
   public pdfFile: SafeResourceUrl;
   public titulo: string = '';
+  public msgError: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -59,7 +60,9 @@ export class VisorDocumentosComponent implements OnInit {
             var downloadUrl = URL.createObjectURL(data);
             this.pdfFile = this.sanitizer.bypassSecurityTrustResourceUrl(downloadUrl + '#view=FitH&zoom=100&scrollbar=1&toolbar=1&navpanes=1');
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            this.msgError = true;
+          });
 
         //this.pdfFile = this.sanitizer.bypassSecurityTrustResourceUrl(environment.apiUrl + "almacen_archivos/" + contenedor + "/download/" + nombreArchivo + "?access_token=" + token.id + '#view=FitH&zoom=100&scrollbar=1&toolbar=1&navpanes=1');
       },

@@ -10,11 +10,7 @@
                 <div class="content">
 
                     <form class="login-form" [formGroup]="formLogin" (ngSubmit)="loginUsr()">
-                        <h3 class="form-title font-green">Iniciar Sesi&oacute;n</h3>
-                        <div class="alert alert-{{colorMsgError}}" *ngIf="mostrarMsgError">
-                            <button class="close" data-close="alert"></button>
-                            <span> {{txtMsgError}} </span>
-                        </div>
+                        <h3 class="form-title font-green">Inicia Sesi&oacute;n</h3>
                         <div class="form-group">
                             <input class="form-control form-control-solid placeholder-no-fix" type="email" formControlName="email" name="email" autocomplete="off" placeholder="Email"/>
                         </div>
@@ -22,8 +18,8 @@
                             <input class="form-control form-control-solid placeholder-no-fix" type="password" formControlName="password" name="password" autocomplete="off" placeholder="password"/>
                         </div>
                         <div class="form-actions">
-                            <button type="submit" [disabled]="!formLogin.valid" class="btn green uppercase">Login</button>
-                            <a href="#" class="forget-password">¿Olvidaste tu contraseña?</a>
+                            <button type="submit" [disabled]="!formLogin.valid" class="btn green uppercase">Iniciar sesi&oacute;n</button>
+                            <a [routerLink]="['/recupera-password']" class="forget-password">¿Olvidaste tu contraseña?</a>
                         </div>
                         <!-- <div class="login-options">
                             <h4>Iniciar sesión con</h4>
@@ -44,7 +40,7 @@
                         </div> -->
                         <div class="create-account">
                             <p>
-                                <!-- <a href="#" ng-click="vm.muestraPanelRegistro()" class="uppercase">CREAR UNA CUENTA</a> -->
+                                <a [routerLink]="['/registro']" ng-click="vm.muestraPanelRegistro()" class="uppercase">CREAR UNA CUENTA</a>
                             </p>
                         </div>
                     </form>
@@ -52,5 +48,10 @@
                 </div>
                 <!-- END LOGIN -->
                 <div class="copyright"> IAPQROO Quintana Roo. </div>
+                <div class="content-error">
+                    <div class="alert alert-{{colorMsgError}}" *ngIf="mostrarMsgError">
+                        <span> {{txtMsgError}} </span>
+                    </div>
+                </div>
 
 </div>

@@ -39,7 +39,7 @@
                 <!-- BEGIN MEGA MENU -->
                 <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
                 <!-- DOC: Remove dropdown-menu-hover and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
-                <div class="hor-menu-light hor-menu">
+                <div class="hor-menu">
                     <ul *ngIf="perfilMenu" class="nav navbar-nav">
                         <li *ngIf="perfilMenu.editaLibros" routerLinkActive="active">
                             <a [routerLink]="['/principal/adminlibros']"><i class="icon-wallet"></i> Admin libros</a>
@@ -66,7 +66,27 @@
                         <li *ngIf="perfilMenu.verPresenta" routerLinkActive="active">
                             <a [routerLink]="['/principal/consultapresentaciones']"><i class="icon-wallet"></i> Presentaciones</a>
                         </li>
+
+                        <li *ngIf="perfilMenu.editaCatalogos" aria-haspopup="true" class="menu-dropdown classic-menu-dropdown" data-close-others="true" routerLinkActive="active">
+                            <a href="javascript:;"> <i class="icon-wallet"></i> Categor&iacute;as</a>
+                            <ul class="dropdown-menu pull-left">
+                                <li aria-haspopup="true" routerLinkActive="active">
+                                    <a [routerLink]="['/principal/admincatalogo', 'libros']" class="nav-link"><i class="icon-wallet"></i> Libros</a>
+                                </li>
+                                <li aria-haspopup="true" routerLinkActive="active">
+                                    <a [routerLink]="['/principal/admincatalogo', 'revistas']" class="nav-link"><i class="icon-wallet"></i> Revistas</a>
+                                </li>
+                                <li aria-haspopup="true" routerLinkActive="active">
+                                    <a [routerLink]="['/principal/admincatalogo', 'publicaciones']" class="nav-link"><i class="icon-wallet"></i> Publicaciones</a>
+                                </li>
+                                <li aria-haspopup="true" routerLinkActive="active">
+                                    <a [routerLink]="['/principal/admincatalogo', 'presentaciones']" class="nav-link"><i class="icon-wallet"></i> Presentaciones</a>
+                                </li>
+                            </ul>
+                        </li>
+
                     </ul>
+
                 </div>
                 <div class="hor-menu-light hor-menu pull-right">
                     <ul class="nav navbar-nav">

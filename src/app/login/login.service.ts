@@ -63,6 +63,7 @@ export class LoginService {
               editaRevistas: false,
               editaPublica: false,
               editaPresenta: false,
+              editaCatalogos: false,
               editaUsuarios: false
             };
 
@@ -75,6 +76,7 @@ export class LoginService {
               perfilMenu.editaRevistas = false;
               perfilMenu.editaPublica = false;
               perfilMenu.editaPresenta = false;
+              perfilMenu.editaCatalogos = false;
               perfilMenu.editaUsuarios = false;
             }
             else if (datos.perfil[0].name == 'publicador') {
@@ -86,6 +88,7 @@ export class LoginService {
               perfilMenu.editaRevistas = true;
               perfilMenu.editaPublica = true;
               perfilMenu.editaPresenta = true;
+              perfilMenu.editaCatalogos = true;
               perfilMenu.editaUsuarios = false;
             }
             else if (datos.perfil[0].name == 'admin') {
@@ -97,6 +100,7 @@ export class LoginService {
               perfilMenu.editaRevistas = false;
               perfilMenu.editaPublica = false;
               perfilMenu.editaPresenta = false;
+              perfilMenu.editaCatalogos = false;
               perfilMenu.editaUsuarios = true;
             }
             else {
@@ -108,6 +112,7 @@ export class LoginService {
               perfilMenu.editaRevistas = false;
               perfilMenu.editaPublica = false;
               perfilMenu.editaPresenta = false;
+              perfilMenu.editaCatalogos = false;
               perfilMenu.editaUsuarios = false;
             }
 

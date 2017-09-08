@@ -1,0 +1,29 @@
+<div class="page-wrapper login">
+                <!-- BEGIN LOGO -->
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="assets/img/logo_iapqroo.png" alt="" />
+                    </a>
+                </div>
+                <!-- END LOGO -->
+                <!-- BEGIN LOGIN -->
+                <div class="content" *ngIf="error">
+                        <h3 class="form-title font-green">Error en la validaci&oacute;n del registro</h3>
+                        <h4 class="form-title font-green">Ha habido un error en la validaci&oacute;n, por favor ingresa tu email para que recibas la nueva validaci&oacute;n</h4>
+                    
+                    <form class="login-form" [formGroup]="formErrorValidacion" (ngSubmit)="loginUsr()">
+                        <div class="form-group">
+                            <input class="form-control form-control-solid placeholder-no-fix" type="email" formControlName="email" name="email" autocomplete="off" placeholder="Email"/>
+                        </div>
+                        <button type="submit" [disabled]="!formErrorValidacion.valid" class="btn green uppercase">Reenviar validaci&oacute;n</button>
+                    </form>
+                </div>
+
+                <div class="content" *ngIf="!error">
+                        <h3 class="form-title font-green">Registro confirmado</h3>
+                        <h4 class="form-title font-green">Se ha confirmado tu registro en la biblioteca virtual del IAPQROO, por favor inicar sesi&oacute;n para poder disfrutarla</h4>
+                        <a [routerLink]="['/login']" class="btn green uppercase">Iniciar sesi&oacute;n</a>
+                </div>
+                <!-- END LOGIN -->
+                <div class="copyright"> IAPQROO Quintana Roo. </div>
+</div>

@@ -17,6 +17,7 @@ import { AppRoutingModule                       } from './app-routing.module';
 
 /* Guards*/
 import { AuthGuard                              } from './core/auth.guard';
+import { ConfirmacionGuard                      } from './core/confirmacion.guard';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { AuthGuard                              } from './core/auth.guard';
     { provide: LOCALE_ID, useValue: "es-MX" },
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: BrowserXhr, useClass: NgProgressBrowserXhr },
-    AuthGuard
+    AuthGuard,
+    ConfirmacionGuard
   ],
   bootstrap: [AppComponent]
 })
