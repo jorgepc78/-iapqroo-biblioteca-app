@@ -16,7 +16,7 @@ export class ConfirmacionGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    console.log(localStorage.getItem('registro'));
+
     if(localStorage.getItem('registro') == 'regok')
     {
       localStorage.removeItem('registro');

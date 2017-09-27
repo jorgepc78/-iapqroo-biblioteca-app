@@ -13,7 +13,7 @@ export class AdminCategoriasService {
     private http: Http
   ) { }
 
-  getlistaCategorias(tipo: string): Observable<any> {
+  getlistaCategorias(tipoDocumento: string): Observable<any> {
 
     let token = JSON.parse(localStorage.getItem('token'));
     let modelo: string = '';
@@ -22,17 +22,8 @@ export class AdminCategoriasService {
       order: ["descripcion ASC"],
     };
 
-    if(tipo == 'libros')
-      modelo = 'CategoriaLibros';
-    else if(tipo == 'presentaciones')
-      modelo = 'CategoriaPresentaciones';
-    else if(tipo == 'publicaciones')
-      modelo = 'CategoriaPublicaciones';
-    else if(tipo == 'revistas')
-      modelo = 'CategoriaRevistas';
-
     return this.http
-      .get(environment.apiUrl + modelo + '/?filter=' + JSON.stringify(filter) + '&access_token=' + token.id, { headers: new Headers({ 'Content-Type': 'text/plain' }) })
+      .get(environment.apiUrl + tipoDocumento + '/?filter=' + JSON.stringify(filter) + '&access_token=' + token.id, { headers: new Headers({ 'Content-Type': 'text/plain' }) })
       .map((response: Response) => {
         return response;
       })
@@ -40,22 +31,43 @@ export class AdminCategoriasService {
   }
 
 
-  getElementosCategoria(idCategoria: number, tipo: string): Observable<any> {
-
+  actualizaRegistro(idCategoria: number, descripcion: string, tipoDocumento: string): Observable<any> {
+    
     let token = JSON.parse(localStorage.getItem('token'));
     let modelo: string = '';
 
-    if(tipo == 'libros') 
-      modelo = 'CategoriaLibros';
-    else if(tipo == 'presentaciones')
-      modelo = 'CategoriaPresentaciones';
-    else if(tipo == 'publicaciones')
-      modelo = 'CategoriaPublicaciones';
-    else if(tipo == 'revistas')
-      modelo = 'CategoriaRevistas';
+    return this.http
+      .patch(environment.apiUrl + tipoDocumento + '/' + idCategoria + '/?access_token=' + token.id, JSON.stringify({descripcion: descripcion}), { headers: new Headers({ 'Content-Type': 'application/json' }) })
+      .map((response: any) => {
+        return response;
+      })
+      .catch(this.handleError);
+  }
+
+
+  nuevoRegistro(descripcion: string, idPadre: number, tipoDocumento: string): Observable<any> {
+    
+    let token = JSON.parse(localStorage.getItem('token'));
+    let datos = {
+      idPadre: idPadre,
+      descripcion: descripcion
+    };
 
     return this.http
-      .get(environment.apiUrl + modelo + '/' + idCategoria + '/elementos_contiene/count?access_token=' + token.id, { headers: new Headers({ 'Content-Type': 'text/plain' }) })
+      .post(environment.apiUrl + tipoDocumento + '/?access_token=' + token.id, JSON.stringify(datos), { headers: new Headers({ 'Content-Type': 'application/json' }) })
+      .map((response: any) => {
+        return response;
+      })
+      .catch(this.handleError);
+  }
+
+
+  getElementosCategoria(idCategoria: number, tipoDocumento: string): Observable<any> {
+
+    let token = JSON.parse(localStorage.getItem('token'));
+
+    return this.http
+      .get(environment.apiUrl + tipoDocumento + '/' + idCategoria + '/elementos_contiene/count?access_token=' + token.id, { headers: new Headers({ 'Content-Type': 'text/plain' }) })
       .map((response: Response) => {
         return response;
       })
@@ -63,69 +75,12 @@ export class AdminCategoriasService {
   }
 
 
-  nuevoRegistro(descripcion: string, tipo: string): Observable<any> {
-    
-    let token = JSON.parse(localStorage.getItem('token'));
-    let modelo: string = '';
-
-    if(tipo == 'libros') 
-      modelo = 'CategoriaLibros';
-    else if(tipo == 'presentaciones')
-      modelo = 'CategoriaPresentaciones';
-    else if(tipo == 'publicaciones')
-      modelo = 'CategoriaPublicaciones';
-    else if(tipo == 'revistas')
-      modelo = 'CategoriaRevistas';
-
-    return this.http
-      .post(environment.apiUrl + modelo + '/?access_token=' + token.id, JSON.stringify({descripcion: descripcion}), { headers: new Headers({ 'Content-Type': 'application/json' }) })
-      .map((response: any) => {
-        return response;
-      })
-      .catch(this.handleError);
-  }
-
-
-  actualizaRegistro(idCategoria: number, descripcion: string, tipo: string): Observable<any> {
-    
-    let token = JSON.parse(localStorage.getItem('token'));
-    let modelo: string = '';
-
-    if(tipo == 'libros') 
-      modelo = 'CategoriaLibros';
-    else if(tipo == 'presentaciones')
-      modelo = 'CategoriaPresentaciones';
-    else if(tipo == 'publicaciones')
-      modelo = 'CategoriaPublicaciones';
-    else if(tipo == 'revistas')
-      modelo = 'CategoriaRevistas';
-
-    return this.http
-      .patch(environment.apiUrl + modelo + '/' + idCategoria + '/?access_token=' + token.id, JSON.stringify({descripcion: descripcion}), { headers: new Headers({ 'Content-Type': 'application/json' }) })
-      .map((response: any) => {
-        return response;
-      })
-      .catch(this.handleError);
-  }
-
-
-
-  eliminaRegistro(id: number, tipo: string): Observable<any> {
+  eliminaRegistro(idCategoria: number, tipoDocumento: string): Observable<any> {
 
     let token = JSON.parse(localStorage.getItem('token'));
-    let modelo: string = '';
-
-    if(tipo == 'libros')
-      modelo = 'CategoriaLibros';
-    else if(tipo == 'presentaciones')
-      modelo = 'CategoriaPresentaciones';
-    else if(tipo == 'publicaciones')
-      modelo = 'CategoriaPublicaciones';
-    else if(tipo == 'revistas')
-      modelo = 'CategoriaRevistas';
 
     return this.http
-      .delete(environment.apiUrl + modelo + '/' + id + '/?access_token=' + token.id, { headers: new Headers({ 'Content-Type': 'text/plain' }) })
+      .delete(environment.apiUrl + tipoDocumento + '/' + idCategoria + '/?access_token=' + token.id, { headers: new Headers({ 'Content-Type': 'text/plain' }) })
       .map((response: any) => {
         return response;
       })

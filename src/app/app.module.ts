@@ -9,7 +9,7 @@ import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
 import { AppComponent                           } from './app.component';
 
 /* Feature Modules */
-import { LoginModule                            } from './login/login.module';
+import { LoginModule                            } from './auth/login/login.module';
 import { CoreModule                             } from './core/core.module';
 
 /* Routing Module */

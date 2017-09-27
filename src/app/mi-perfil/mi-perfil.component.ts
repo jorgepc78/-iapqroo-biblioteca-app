@@ -26,7 +26,7 @@ export class MiPerfilComponent implements OnInit {
     this.formPerfil = this.formBuilder.group({
       nombre:          [ { value: '', disabled: false }, Validators.required],
       apellidoPaterno: [ { value: '', disabled: false }, Validators.required],
-      apellidoMaterno: [ { value: '', disabled: false }, Validators.required],
+      apellidoMaterno: [ { value: '', disabled: false }],
       email:           [ { value: '', disabled: false }, Validators.required]
     });
 

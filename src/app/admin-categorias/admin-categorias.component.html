@@ -5,45 +5,38 @@
             <div class="portlet-title">
                 <div class="caption font-dark">
                     <i class="icon-notebook font-dark"></i>
-                    <span class="caption-subject bold uppercase"> Categor&iacute;as de {{tipo}}</span>
-                </div>
-                <div class="actions">
-                    <a href="javascript:;" class="btn btn-circle green" (click)="nuevoRegistro()">
-                        <i class="fa fa-plus"></i> Nuevo registro </a>
+                    <span class="caption-subject bold uppercase"> Categor&iacute;as de {{nombreDocumento}}</span>
                 </div>
             </div>
             <div class="portlet-body">
-                <div class="table-responsive">
-                    <table class="table" style="border-bottom: 1px solid #ddd;">
-                        <thead>
-                            <tr>
-                                <th> Descripci&oacute;n </th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="odd gradeX pointer" *ngFor="let registro of listaRegistros | paginate: { itemsPerPage: tablaListaRegistros.registrosPorPagina, currentPage: tablaListaRegistros.paginaActual }">
-                                <td> {{registro.descripcion}} </td>
-                                <td class="text-right">
-                                  <div class="clearfix">
-                                      <button (click)="editaRegistro(registro)" class="btn btn-circle btn-sm green-haze"><i class="fa fa-pencil"></i> Editar</button>
-                                      <button (click)="eliminaRegistro(registro)" class="btn btn-circle btn-sm red"><i class="fa fa-trash-o"></i> Eliminar</button>
-                                  </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="row" style="margin: 10px 0 0 0;">
-                        <div class="col-md-1">
-                        </div>
-                        <div class="col-md-8 text-center">
-                            <pagination-controls (pageChange)="tablaListaRegistros.paginaActual = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
-                        </div>
-                        <div class="col-md-3">
-                        <span>Total registros: {{tablaListaRegistros.totalElementos}}</span>
-                        </div>
-                    </div>
+
+                <div *ngIf="estructuratree" style="height: 600px" class="treePanel">
+                    <tree-root #treeAdminCategorias [nodes]="estructuratree" [focused]="false" [options]="treeOptions" (initialized)="onInitialized(treeAdminCategorias)">
+                        <ng-template #treeNodeTemplate let-node>
+                            
+                            <span class="btn-pull-right" *ngIf="(node.data.idPadre === -1)">
+                                <button type="button" (click)="nuevoRegistro(treeAdminCategorias, node.data)" class="btn btn-circle btn-xs btn-outline blue"><i class="fa fa-plus"></i> Agregar</button>
+                            </span>
+                            <span class="btn-pull-right" *ngIf="(node.data.children.length > 0 && node.data.idPadre >= 0)">
+                                <button type="button" (click)="editaRegistro($event, node.data)" class="btn btn-circle btn-xs btn-outline green"><i class="fa fa-pencil"></i> Editar</button>
+                                <button type="button" (click)="nuevoRegistro(treeAdminCategorias, node.data)" class="btn btn-circle btn-xs btn-outline blue"><i class="fa fa-plus"></i> Agregar</button>
+                            </span>
+                            <span class="btn-pull-right" *ngIf="(node.data.children.length == 0 && node.data.idPadre >= 0)">
+                                <button type="button" (click)="editaRegistro($event, node.data)" class="btn btn-circle btn-xs green"><i class="fa fa-pencil"></i> Editar</button>
+                                <button type="button" (click)="nuevoRegistro(treeAdminCategorias, node.data)" class="btn btn-circle btn-xs blue"><i class="fa fa-plus"></i> Agregar</button>
+                                <button type="button" (click)="eliminaRegistro($event, node.data)" class="btn btn-circle btn-xs red"><i class="fa fa-trash-o"></i> Eliminar</button>
+                            </span>
+
+                            <span title="{{node.data.descripcion}}">{{ node.data.descripcion }}</span>
+                            
+                        </ng-template>
+                        <ng-template #loadingTemplate>Loading, please hold....</ng-template>
+                    </tree-root>
+
+
                 </div>
+
+
             </div>
         </div>
         <!-- END EXAMPLE TABLE PORTLET-->

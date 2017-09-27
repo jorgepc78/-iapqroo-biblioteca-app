@@ -4,9 +4,9 @@ Core script to handle the entire theme and core functions
 
 var Layout = function () {
 
-    var layoutImgPath = 'img/';
+    var layoutImgPath = 'layouts/layout3/img/';
 
-    var layoutCssPath = 'css/';
+    var layoutCssPath = 'layouts/layout3/css/';
 
     var resBreakpointMd = App.getResponsiveBreakpoint('md');
 
@@ -118,8 +118,8 @@ var Layout = function () {
     };
 
     // Handle sidebar menu links
-    var handleMainMenuActiveLink = function(mode, el, $state) {
-        var url = encodeURI(location.hash).toLowerCase();    
+    var handleMainMenuActiveLink = function(mode, el) {
+        var url = location.hash.toLowerCase();    
 
         var menu = $('.hor-menu');
 
@@ -127,22 +127,11 @@ var Layout = function () {
             el = $(el);
         } else if (mode === 'match') {
             menu.find("li > a").each(function() {
-                var state = $(this).attr('ui-sref');
-                if ($state && state) {
-                    if ($state.is(state)) {
-                        el = $(this);
-                        return;
-                    }
-                } else {
-                    var path = $(this).attr('href');
-                    if (path) {
-                        // url match condition         
-                        path = path.toLowerCase();
-                        if (path.length > 1 && url.substr(1, path.length - 1) == path.substr(1)) {
-                            el = $(this);
-                            return;
-                        }
-                    }
+                var path = $(this).attr("href").toLowerCase();       
+                // url match condition         
+                if (path.length > 1 && url.substr(1, path.length - 1) == path.substr(1)) {
+                    el = $(this);
+                    return; 
                 }
             });
         }
@@ -151,13 +140,9 @@ var Layout = function () {
             return;
         }
 
-        if (el.attr('href') == 'javascript:;' ||
-            el.attr('ui-sref') == 'javascript:;' ||
-            el.attr('href') == '#' ||
-            el.attr('ui-sref') == '#'
-            ) {
+        if (el.attr('href').toLowerCase() === 'javascript:;' || el.attr('href').toLowerCase() === '#') {
             return;
-        }      
+        }        
 
         // disable active states
         menu.find('li.active').removeClass('active');
@@ -187,6 +172,9 @@ var Layout = function () {
     };
 
     var handleContentHeight = function() {
+        return;
+        var height;
+
         if ($('body').height() < App.getViewPort().height) {            
             height = App.getViewPort().height -
                 $('.page-header').outerHeight() - 
@@ -234,13 +222,14 @@ var Layout = function () {
         
         // Main init methods to initialize the layout
         // IMPORTANT!!!: Do not modify the core handlers call order.
-
-        initHeader: function($state) {
+        initHeader: function() {
             handleHeader(); // handles horizontal menu    
             handleMainMenu(); // handles menu toggle for mobile
             App.addResizeHandler(handleMainMenuOnResize); // handle main menu on window resize
 
-            handleMainMenuActiveLink('match', null, $state); // init sidebar active links 
+            if (App.isAngularJsApp()) {      
+                handleMainMenuActiveLink('match'); // init sidebar active links 
+            }
         },
 
         initContent: function() {
@@ -259,10 +248,6 @@ var Layout = function () {
 
         setMainMenuActiveLink: function(mode, el) {
             handleMainMenuActiveLink(mode, el);
-        },
-
-        setAngularJsMainMenuActiveLink: function(mode, el, $state) {
-            handleMainMenuActiveLink(mode, el, $state);
         },
 
         closeMainMenu: function() {
@@ -284,6 +269,8 @@ var Layout = function () {
 
 }();
 
-jQuery(document).ready(function() {   
-    Layout.init(); // init metronic core componets
-});
+if (App.isAngularJsApp() === false) {
+    jQuery(document).ready(function() {   
+        Layout.init(); // init metronic core componets
+    });
+}

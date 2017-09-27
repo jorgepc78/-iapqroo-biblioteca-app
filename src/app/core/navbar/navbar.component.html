@@ -41,46 +41,28 @@
                 <!-- DOC: Remove dropdown-menu-hover and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
                 <div class="hor-menu">
                     <ul *ngIf="perfilMenu" class="nav navbar-nav">
-                        <li *ngIf="perfilMenu.editaLibros" routerLinkActive="active">
-                            <a [routerLink]="['/principal/adminlibros']"><i class="icon-wallet"></i> Admin libros</a>
+                        <li *ngIf="perfilMenu.editaDocumentos" routerLinkActive="active">
+                            <a [routerLink]="['/principal/administracion', 'documentos']"><i class="icon-wallet"></i> Administraci&oacute;n de documentos</a>
                         </li>
-                        <li *ngIf="perfilMenu.editaRevistas" routerLinkActive="active">
-                            <a [routerLink]="['/principal/adminrevistas']"><i class="icon-wallet"></i> Admin Revistas</a>
-                        </li>
-                        <li *ngIf="perfilMenu.editaPublica" routerLinkActive="active">
-                            <a [routerLink]="['/principal/adminpublicaciones']"><i class="icon-wallet"></i> Admin Publicaciones</a>
-                        </li>
-                        <li *ngIf="perfilMenu.editaPresenta" routerLinkActive="active">
-                            <a [routerLink]="['/principal/adminpresentaciones']"><i class="icon-wallet"></i> Admin Presentaciones</a>
+                        <li *ngIf="perfilMenu.editaVideos" routerLinkActive="active">
+                            <a [routerLink]="['/principal/administracion', 'videos']"><i class="icon-wallet"></i> Administraci&oacute;n de videos</a>
                         </li>
 
-                        <li *ngIf="perfilMenu.verLibros" routerLinkActive="active">
-                            <a [routerLink]="['/principal/consultalibros']"><i class="icon-wallet"></i> Libros</a>
+                        <li *ngIf="perfilMenu.verDocumentos" routerLinkActive="active">
+                            <a [routerLink]="['/principal/consulta', 'documentos']"><i class="icon-wallet"></i> Documentos</a>
                         </li>
-                        <li *ngIf="perfilMenu.verRevistas" routerLinkActive="active">
-                            <a [routerLink]="['/principal/consultarevistas']"><i class="icon-wallet"></i> Revistas</a>
-                        </li>
-                        <li *ngIf="perfilMenu.verPublica" routerLinkActive="active">
-                            <a [routerLink]="['/principal/consultapublicaciones']"><i class="icon-wallet"></i> Publicaciones</a>
-                        </li>
-                        <li *ngIf="perfilMenu.verPresenta" routerLinkActive="active">
-                            <a [routerLink]="['/principal/consultapresentaciones']"><i class="icon-wallet"></i> Presentaciones</a>
+                        <li *ngIf="perfilMenu.verVideos" routerLinkActive="active">
+                            <a [routerLink]="['/principal/consulta', 'videos']"><i class="icon-wallet"></i> Videos</a>
                         </li>
 
                         <li *ngIf="perfilMenu.editaCatalogos" aria-haspopup="true" class="menu-dropdown classic-menu-dropdown" data-close-others="true" routerLinkActive="active">
                             <a href="javascript:;"> <i class="icon-wallet"></i> Categor&iacute;as</a>
                             <ul class="dropdown-menu pull-left">
                                 <li aria-haspopup="true" routerLinkActive="active">
-                                    <a [routerLink]="['/principal/admincatalogo', 'libros']" class="nav-link"><i class="icon-wallet"></i> Libros</a>
+                                    <a [routerLink]="['/principal/admincatalogo', 'documentos']" class="nav-link"><i class="icon-wallet"></i> Documentos</a>
                                 </li>
                                 <li aria-haspopup="true" routerLinkActive="active">
-                                    <a [routerLink]="['/principal/admincatalogo', 'revistas']" class="nav-link"><i class="icon-wallet"></i> Revistas</a>
-                                </li>
-                                <li aria-haspopup="true" routerLinkActive="active">
-                                    <a [routerLink]="['/principal/admincatalogo', 'publicaciones']" class="nav-link"><i class="icon-wallet"></i> Publicaciones</a>
-                                </li>
-                                <li aria-haspopup="true" routerLinkActive="active">
-                                    <a [routerLink]="['/principal/admincatalogo', 'presentaciones']" class="nav-link"><i class="icon-wallet"></i> Presentaciones</a>
+                                    <a [routerLink]="['/principal/admincatalogo', 'videos']" class="nav-link"><i class="icon-wallet"></i> Videos</a>
                                 </li>
                             </ul>
                         </li>
