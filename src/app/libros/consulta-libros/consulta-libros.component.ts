@@ -12,7 +12,6 @@ import { ConsultaLibrosService               } from './consulta-libros.service';
 declare var jQuery: any;
 declare var $: any;
 
-
 @Component({
   selector: 'app-consulta-libros',
   templateUrl: './consulta-libros.component.html',

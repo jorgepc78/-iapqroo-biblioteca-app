@@ -17,10 +17,10 @@ export const routes: Routes = [
       { path: 'miperfil'               , loadChildren: './mi-perfil/mi-perfil.module#MiPerfilModule' },
 
       { path: 'administracion/:tipo'   , loadChildren: './documentos/admin-documentos/admin-documentos.module#AdminDocumentosModule' },
-      { path: 'editadocumento'         , loadChildren: './documentos/edita-documento/edita-documento.module#EditaDocumentoModule' },
-      { path: 'editavideo'             , loadChildren: './documentos/edita-video/edita-video.module#EditaVideoModule' },
+      { path: 'documento'              , loadChildren: './documentos/edita-documento/edita-documento.module#EditaDocumentoModule' },
+      { path: 'video'                  , loadChildren: './documentos/edita-video/edita-video.module#EditaVideoModule' },
       { path: 'consulta/:tipo'         , loadChildren: './documentos/consulta-documentos/consulta-documentos.module#ConsultaDocumentosModule' },
-      { path: 'visordocumento'         , loadChildren: './documentos/visor-documentos/visor-documentos.module#VisorDocumentosModule' },
+      { path: 'visordocumentos'        , loadChildren: './documentos/visor-documentos/visor-documentos.module#VisorDocumentosModule' },
       
       { path: 'admincatalogo/:tipo'    , loadChildren: './admin-categorias/admin-categorias.module#AdminCategoriasModule' }
     ]

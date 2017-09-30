@@ -2,7 +2,7 @@ import { BrowserModule                          } from '@angular/platform-browse
 import { NgModule, LOCALE_ID                    } from '@angular/core';
 import { FormsModule                            } from '@angular/forms';
 import { BrowserXhr, HttpModule                 } from '@angular/http';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+//import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
 
 /* App Root */
@@ -34,7 +34,7 @@ import { ConfirmacionGuard                      } from './core/confirmacion.guar
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "es-MX" },
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    //{ provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: BrowserXhr, useClass: NgProgressBrowserXhr },
     AuthGuard,
     ConfirmacionGuard

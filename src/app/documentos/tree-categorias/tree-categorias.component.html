@@ -1,0 +1,10 @@
+<li *ngFor="let item of items">
+    <a class="has-arrow" href="javascript:;" aria-expanded="false" *ngIf="item['children'].length">{{item.descripcion}}</a>
+    <a href="javascript:;" *ngIf="!item['children'].length" (click)="muestraDocumentosCat(item.idCategoria)">
+        {{item.descripcion}}
+        <span class="badge badge-success" style="float: right;">{{item.total}}</span>
+    </a>
+    <ul aria-expanded="false" class="collapse" *ngIf="item['children'].length">
+        <app-tree-categorias *ngIf="item['children'].length" [data]="item['children']"></app-tree-categorias>
+    </ul>
+</li>

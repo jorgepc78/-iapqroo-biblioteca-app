@@ -27,9 +27,9 @@ export class VisorDocumentosComponent implements OnInit {
   ngOnInit() {
     let documento, contenedor : string = '';
     let url = this.route.snapshot.url[0].toString();
-    if(url == 'libro') {
-      documento = 'Libros';
-      contenedor = 'libros';
+    if(url == 'documento') {
+      documento = 'Documentos';
+      contenedor = 'documentos';
     }
     else if(url == 'revista') {
       documento = 'Revistas';

@@ -87,7 +87,7 @@ export class AdminDocumentosComponent implements OnInit {
     if(registro !== undefined)
     {
         this.registroSeleccionado = {
-          idLibro: registro.idLibro,
+          idDocumento: registro.idDocumento,
           nombre: registro.nombre,
           autor: registro.autor,
           descripcion: this.sanitizer.bypassSecurityTrustHtml(registro.descripcion),
@@ -133,12 +133,12 @@ export class AdminDocumentosComponent implements OnInit {
 
 
   nuevoRegistro() {
-    this.router.navigate(['principal/detallelibro/agregalibro'])
+    this.router.navigate(['principal/documento/agregadocumento'])
   }
 
 
   editaRegistro(id) {
-    this.router.navigate(['principal/detallelibro/editalibro', id])
+    this.router.navigate(['principal/documento/editadocumento', id])
   }
 
 

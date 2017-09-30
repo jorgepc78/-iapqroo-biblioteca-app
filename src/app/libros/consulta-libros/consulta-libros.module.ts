@@ -8,7 +8,6 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 import { ModalModule } from 'angular2-modal';
 import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
-//import { VexModalModule } from 'angular2-modal/plugins/vex';
 
 import { ConsultaLibrosRoutingModule     } from './consulta-libros-routing.module';
 import { ConsultaLibrosComponent         } from './consulta-libros.component';

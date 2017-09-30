@@ -36,7 +36,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="odd gradeX pointer" *ngFor="let registro of listaRegistros | paginate: { id: 'server', itemsPerPage: tablaListaRegistros.registrosPorPagina, currentPage: tablaListaRegistros.paginaActual, totalItems: tablaListaRegistros.totalElementos }" (click)="muestraDatosRegistro(registro)" [class.active]="registro.idLibro == registroSeleccionado.idLibro">
+                            <tr class="odd gradeX pointer" *ngFor="let registro of listaRegistros | paginate: { id: 'server', itemsPerPage: tablaListaRegistros.registrosPorPagina, currentPage: tablaListaRegistros.paginaActual, totalItems: tablaListaRegistros.totalElementos }" (click)="muestraDatosRegistro(registro)" [class.active]="registro.idDocumento == registroSeleccionado.idDocumento">
                                 <td> {{registro.nombre}} </td>
                                 <td> {{ (registro.categoria_pertenece == undefined ? '' : registro.categoria_pertenece.descripcion)}} </td>
                             </tr>
@@ -65,9 +65,9 @@
                     <span class="caption-subject bold uppercase"> Detalle</span>
                 </div>
                 <div class="actions" *ngIf="(listaRegistros.length > 0)">
-                    <a href="javascript:;" class="btn btn-circle green-haze" (click)="editaRegistro(registroSeleccionado.idLibro)">
+                    <a href="javascript:;" class="btn btn-circle green-haze" (click)="editaRegistro(registroSeleccionado.idDocumento)">
                         <i class="fa fa-pencil"></i> Editar </a>
-                    <a href="javascript:;" class="btn btn-circle red" (click)="eliminaRegistro(registroSeleccionado.idLibro, registroSeleccionado.nombreArchivo)">
+                    <a href="javascript:;" class="btn btn-circle red" (click)="eliminaRegistro(registroSeleccionado.idDocumento, registroSeleccionado.nombreArchivo)">
                         <i class="fa fa-trash-o"></i> Eliminar </a>
                 </div>
             </div>

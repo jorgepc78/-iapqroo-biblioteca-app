@@ -9,11 +9,11 @@ import { AdminCategoriasComponent            } from './admin-categorias.componen
 import { AdminCategoriasService              } from './admin-categorias.service';
 
 import { AdminCategoriasRoutingModule } from './admin-categorias-routing.module';
-import { TreeAdminCategoriasComponent } from './tree-admin-categorias/tree-admin-categorias.component';
+
 
 @NgModule({
   imports: [CommonModule, AdminCategoriasRoutingModule, TreeModule],
-  declarations: [AdminCategoriasComponent, TreeAdminCategoriasComponent],
+  declarations: [AdminCategoriasComponent],
   providers: [SweetAlertService, AdminCategoriasService]
 })
 export class AdminCategoriasModule { }

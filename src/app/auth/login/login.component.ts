@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService
   ) {
     this.formLogin = this.formBuilder.group({
-      email: ["publicador@hotmail.com", Validators.compose([Validators.required, Validators.pattern("[^ @]*@[^ @]*")])],
+      email: ["jorgepc78@gmail.com", Validators.compose([Validators.required, Validators.pattern("[^ @]*@[^ @]*")])],
       password: ["txfiles", Validators.required]
     });
   }
