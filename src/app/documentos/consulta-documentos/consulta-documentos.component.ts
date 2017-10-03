@@ -64,50 +64,69 @@ export class ConsultaDocumentosComponent implements OnInit, OnDestroy {
   ) {
 
     this.subscription = messageService.eventoAnunciado$.subscribe(
-      idDocumento => {
-        this.filtraCategoria(idDocumento);
+      idCategoria => {
+        this.filtraCategoria(idCategoria);
     });    
   }
 
   ngOnInit() {
 
-    if(this.route.snapshot.paramMap.get('tipo') === 'documentos')
-      this.tipoDocumento = 'Documentos';
-    else
-      this.tipoDocumento = 'Videos';
+    this.route.params.subscribe(params => {
 
-    this.consultaDocumentosService
-      .getTotalDocumentos(this.tablaListaRegistros.condicion, this.tipoDocumento)
-      .subscribe(
-      data => {
-        this.tablaListaRegistros.totalElementos = data.json().count;
-        this.totalRegistrosGlobal = data.json().count;
-        this.cambiaPagina(this.tablaListaRegistros.paginaActual);
+        this.listaCategorias = [];
+        this.listaRegistros = [];
+        this.tablaListaRegistros.condicion = {};
+        this.textoBuscar = '';
+
+        if(params['tipo'] === 'documentos') {
+          this.tipoDocumento = 'Documentos';
+        }
+        else {
+          this.tipoDocumento = 'Videos';
+        }
 
         this.consultaDocumentosService
-          .getCategDocumentos(this.tipoDocumento)
+          .getTotalDocumentos(this.tablaListaRegistros.condicion, this.tipoDocumento)
           .subscribe(
           data => {
+            this.tablaListaRegistros.totalElementos = data.json().count;
+            this.totalRegistrosGlobal = data.json().count;
+            this.cambiaPagina(this.tablaListaRegistros.paginaActual);
 
-            this.listaCategorias = this._makeTree({
-                q: this._queryTreeSort({
-                    q: data.json()
-                })
-            });
-             this.listaCategorias.unshift({
-                idCategoria : 0,
-                idPadre     : 0,
-                children    : [],
-                descripcion : "Todos",
-                isExpanded  : true,
-                total       : this.tablaListaRegistros.totalElementos
-             });
-            //console.log(this.listaCategorias);
-            setTimeout(() => {
-              $('#menu1').metisMenu();
-              $('#menu2').metisMenu();
-            },300);
+            this.consultaDocumentosService
+              .getCategDocumentos(this.tipoDocumento)
+              .subscribe(
+              data => {
 
+                this.listaCategorias = this._makeTree({
+                    q: this._queryTreeSort({
+                        q: data.json()
+                    })
+                });
+                 this.listaCategorias.unshift({
+                    idCategoria : 0,
+                    idPadre     : 0,
+                    children    : [],
+                    descripcion : "Todos",
+                    isExpanded  : true,
+                    total       : this.tablaListaRegistros.totalElementos
+                 });
+                //console.log(this.listaCategorias);
+                setTimeout(() => {
+                  $('#menu1').metisMenu();
+                  $('#menu2').metisMenu();
+                },300);
+
+              },
+              err => {
+                if (err.json().error == undefined)
+                  console.log("Error de conexion");
+                else {
+                  let error = err.json().error;
+                  if (error.status == 401)
+                    console.log("error de autorizacion");
+                }
+              });
           },
           err => {
             if (err.json().error == undefined)
@@ -118,16 +137,7 @@ export class ConsultaDocumentosComponent implements OnInit, OnDestroy {
                 console.log("error de autorizacion");
             }
           });
-      },
-      err => {
-        if (err.json().error == undefined)
-          console.log("Error de conexion");
-        else {
-          let error = err.json().error;
-          if (error.status == 401)
-            console.log("error de autorizacion");
-        }
-      });
+    });
   }
 
 
@@ -237,17 +247,19 @@ ngOnDestroy() {
       .getListaDocumentos(this.tablaListaRegistros.condicion, this.tablaListaRegistros.registrosPorPagina, this.tablaListaRegistros.paginaActual, this.tipoDocumento)
       .subscribe(
       data => {
-        let datos = data.json();
         this.listaRegistros = [];
-        datos.map(record => {
+        data.json().map(record => {
           this.listaRegistros.push({
-            idDocumento: record.idDocumento,
-            portada: (record.portada == '' ? 'assets/img/portada_no_disponible.jpg' : record.portada),
-            nombre: record.nombre,
-            autor: record.autor,
-            descripcion: record.descripcion,
-            idCategoria: record.idCategoria,
-            categoria: (record.categoria_pertenece == undefined ? 'Sin categoría' : record.categoria_pertenece.descripcion)
+            idElemento    : this.tipoDocumento == 'Documentos' ? record.idDocumento : record.idVideo,
+            nombre        : record.nombre,
+            autor         : record.autor,
+            descripcion   : record.descripcion,
+            idCategoria   : record.idCategoria,
+            rutaCategoria : record.rutaCategoria,
+            nombreArchivo : record.nombreArchivo,
+            portada       : (record.portada == '' ? 'assets/img/portada_no_disponible.jpg' : record.portada),
+            categoria     : record.categoria_pertenece == undefined ? 'Sin categoría' : record.categoria_pertenece.descripcion,
+            url           : record.url == undefined ? '' : record.url
           });
         });
         this.recargaPlugin();
@@ -285,13 +297,19 @@ ngOnDestroy() {
               </div>
               `;
 
+    let textBtn: string = '';
+    if(this.tipoDocumento == 'Documentos')
+      textBtn = 'Ver documento';
+    else
+      textBtn = 'Ver video';
+
     const dialogRef = this.modal.confirm()
         .size('lg')
         .isBlocking(true)
         .showClose(false)
         .keyboard(27)
         .title(documento.nombre)
-        .okBtn('Ver documento')
+        .okBtn(textBtn)
         .okBtnClass('btn btn-circle btn-success')
         .cancelBtn('Cerrar')
         .cancelBtnClass('btn btn-circle btn-default')
@@ -301,15 +319,18 @@ ngOnDestroy() {
         dialogRef
           .then(result => { 
             result.result.then(() => { 
-              this.abrirDocumento(documento.idDocumento);
+              this.abrirDocumento(documento.idElemento);
             }, 
             () => { }); 
           });
   }
 
 
-  abrirDocumento(idDocumento) {
-    this.router.navigate(['principal/visordocumentos/documento', idDocumento]);
+  abrirDocumento(idElemento) {
+    if(this.tipoDocumento == 'Documentos')
+      this.router.navigate(['principal/visordocumentos/documento', idElemento]);
+    else
+      this.router.navigate(['principal/visordocumentos/video', idElemento]);
   }
 
 

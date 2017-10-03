@@ -5,7 +5,8 @@ import { AuthGuard } from '../../core/auth.guard'
 import { VisorDocumentosComponent } from './visor-documentos.component';
 
 const routes: Routes = [
-  { path: 'documento/:id', component: VisorDocumentosComponent, canActivate: [AuthGuard] }
+  { path: 'documento/:id', component: VisorDocumentosComponent, canActivate: [AuthGuard] },
+  { path: 'video/:id', component: VisorDocumentosComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

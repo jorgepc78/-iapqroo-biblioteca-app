@@ -16,43 +16,53 @@ export class VisorDocumentosService {
     private http: Http
   ) { }
 
-  getNombrePDF(tipo: string, id: number): Observable<any> {
+  getNombreUrlDocumento(tipoDocumento: string, id: number): Observable<any> {
 
     let token = JSON.parse(localStorage.getItem('token'));
-    let campos: any = [];
-
-    if(tipo == 'Libros')
-      campos = ["idLibro","nombreArchivo", "nombre"];
-    else if(tipo == 'Revistas')
-      campos = ["idRevista","nombreArchivo", "nombre"];
-    else if(tipo == 'Publicaciones')
-      campos = ["idPublicacion","nombreArchivo", "nombre"];
-    else if(tipo == 'Presentaciones')
-      campos = ["idPresentacion","nombreArchivo", "nombre"];
-
+    let filter: any = {};
     let fecha = new Date();
     let anio = fecha.getFullYear();
     let mes = fecha.getMonth() + 1;
 
-    let filter = {
-      fields: campos,
-      include: [
-        {
-          relation: "visitas",
-          scope: {
-            where: {
-              and: [
-                {anio: anio},
-                {mes: mes}
-              ]
+    if(tipoDocumento == 'Documentos') {
+        filter = {
+          fields: ["idDocumento","nombreArchivo", "nombre"],
+          include: [
+            {
+              relation: "visitas",
+              scope: {
+                where: {
+                  and: [
+                    {anio: anio},
+                    {mes: mes}
+                  ]
+                }
+              }
             }
-          }
-        }
-      ]
-    };
+          ]
+        };      
+    }
+    else {
+        filter = {
+          fields: ["idVideo","url", "nombre"],
+          include: [
+            {
+              relation: "visitas",
+              scope: {
+                where: {
+                  and: [
+                    {anio: anio},
+                    {mes: mes}
+                  ]
+                }
+              }
+            }
+          ]
+        };      
+    }
 
     return this.http
-      .get(environment.apiUrl + tipo + '/' + id + '?filter=' + JSON.stringify(filter) + '&access_token=' + token.id, { headers: this.headers })
+      .get(environment.apiUrl + tipoDocumento + '/' + id + '?filter=' + JSON.stringify(filter) + '&access_token=' + token.id, { headers: this.headers })
       .map((response: Response) => {
         return response;
       })
@@ -60,7 +70,7 @@ export class VisorDocumentosService {
   }
 
 
-  getPDF(nombreArchivo: string, contenedor: string, id: number): Promise<any> {
+  getPDF(nombreArchivo: string): Promise<any> {
 
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -74,7 +84,7 @@ export class VisorDocumentosService {
     let token = JSON.parse(localStorage.getItem('token'));
 
     return this.http
-      .get(environment.apiUrl + "almacen_archivos/" + contenedor + "/download/" + nombreArchivo + "?access_token=" + token.id, options)
+      .get(environment.apiUrl + "almacen_archivos/documentos/download/" + nombreArchivo + "?access_token=" + token.id, options)
       .toPromise()
       .then((response: any) => {
         var blob = new Blob([(<any>response)._body], { type: 'application/pdf' });
@@ -87,52 +97,37 @@ export class VisorDocumentosService {
 
 
 
-  addCountVista(tipo: string, idVista: number, idDocumento: number, numVistas: number): Observable<any> {
+  addCountVisita(tipoDocumento: string, idElemento: number, idVisita: number, numVisitas: number): Observable<any> {
 
     let token = JSON.parse(localStorage.getItem('token'));
 
-    if(idVista == 0)
+    if(idVisita == 0)
     {
         let fecha = new Date();
         let anio = fecha.getFullYear();
         let mes = fecha.getMonth() + 1;
         let dataTemp = {};
 
-        if(tipo == 'Libros') {
+        if(tipoDocumento == 'Documentos') {
             dataTemp = {
-              idLibro: idDocumento,
+              idDocumento: idElemento,
               anio: anio,
               mes: mes,
-              numVistas: numVistas
+              numVisitas: numVisitas
             };
         }
-        else if(tipo == 'Revistas') {
+        else
+        {
             dataTemp = {
-              idRevista: idDocumento,
+              idVideo: idElemento,
               anio: anio,
               mes: mes,
-              numVistas: numVistas
-            };
-        }
-        else if(tipo == 'Publicaciones') {
-            dataTemp = {
-              idPublicacion: idDocumento,
-              anio: anio,
-              mes: mes,
-              numVistas: numVistas
-            };
-        }
-        else if(tipo == 'Presentaciones') {
-            dataTemp = {
-              idPresentacion: idDocumento,
-              anio: anio,
-              mes: mes,
-              numVistas: numVistas
-            };
+              numVisitas: numVisitas
+            };          
         }
 
         return this.http
-          .post(environment.apiUrl + tipo + 'Vistas?access_token=' + token.id, JSON.stringify(dataTemp), { headers: new Headers({ 'Content-Type': 'application/json' }) })
+          .post(environment.apiUrl + 'Visitas' + tipoDocumento + '?access_token=' + token.id, JSON.stringify(dataTemp), { headers: new Headers({ 'Content-Type': 'application/json' }) })
           .map((response: Response) => {
             return response;
           })
@@ -141,11 +136,11 @@ export class VisorDocumentosService {
     else
     {
         let dataTemp = {
-          numVistas: numVistas
+          numVisitas: numVisitas
         };
 
         return this.http
-          .patch(environment.apiUrl + tipo + 'Vistas/' + idVista + '?access_token=' + token.id, JSON.stringify(dataTemp), { headers: new Headers({ 'Content-Type': 'application/json' }) })
+          .patch(environment.apiUrl + 'Visitas' + tipoDocumento + '/' + idVisita + '?access_token=' + token.id, JSON.stringify(dataTemp), { headers: new Headers({ 'Content-Type': 'application/json' }) })
           .map((response: Response) => {
             return response;
           })

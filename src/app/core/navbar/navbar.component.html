@@ -42,27 +42,27 @@
                 <div class="hor-menu">
                     <ul *ngIf="perfilMenu" class="nav navbar-nav">
                         <li *ngIf="perfilMenu.editaDocumentos" routerLinkActive="active">
-                            <a [routerLink]="['/principal/administracion', 'documentos']"><i class="icon-wallet"></i> Administraci&oacute;n de documentos</a>
+                            <a [routerLink]="['/principal/administracion', 'documentos']"><i class="icon-notebook"></i> Administraci&oacute;n de documentos</a>
                         </li>
                         <li *ngIf="perfilMenu.editaVideos" routerLinkActive="active">
-                            <a [routerLink]="['/principal/administracion', 'videos']"><i class="icon-wallet"></i> Administraci&oacute;n de videos</a>
+                            <a [routerLink]="['/principal/administracion', 'videos']"><i class="icon-social-youtube"></i> Administraci&oacute;n de videos</a>
                         </li>
 
                         <li *ngIf="perfilMenu.verDocumentos" routerLinkActive="active">
-                            <a [routerLink]="['/principal/consulta', 'documentos']"><i class="icon-wallet"></i> Documentos</a>
+                            <a [routerLink]="['/principal/consulta', 'documentos']"><i class="icon-notebook"></i> Documentos</a>
                         </li>
                         <li *ngIf="perfilMenu.verVideos" routerLinkActive="active">
-                            <a [routerLink]="['/principal/consulta', 'videos']"><i class="icon-wallet"></i> Videos</a>
+                            <a [routerLink]="['/principal/consulta', 'videos']"><i class="icon-social-youtube"></i> Videos</a>
                         </li>
 
                         <li *ngIf="perfilMenu.editaCatalogos" aria-haspopup="true" class="menu-dropdown classic-menu-dropdown" data-close-others="true" routerLinkActive="active">
                             <a href="javascript:;"> <i class="icon-wallet"></i> Categor&iacute;as</a>
                             <ul class="dropdown-menu pull-left">
                                 <li aria-haspopup="true" routerLinkActive="active">
-                                    <a [routerLink]="['/principal/admincatalogo', 'documentos']" class="nav-link"><i class="icon-wallet"></i> Documentos</a>
+                                    <a [routerLink]="['/principal/admincatalogo', 'documentos']" class="nav-link"><i class="icon-notebook"></i> Categor&iacute;as de documentos</a>
                                 </li>
                                 <li aria-haspopup="true" routerLinkActive="active">
-                                    <a [routerLink]="['/principal/admincatalogo', 'videos']" class="nav-link"><i class="icon-wallet"></i> Videos</a>
+                                    <a [routerLink]="['/principal/admincatalogo', 'videos']" class="nav-link"><i class="icon-social-youtube"></i> Categor&iacute;as de videos</a>
                                 </li>
                             </ul>
                         </li>
@@ -72,10 +72,10 @@
                 </div>
                 <div class="hor-menu-light hor-menu pull-right">
                     <ul class="nav navbar-nav">
-                        <li uiSrefActive="active">
+                        <li routerLinkActive="active">
                             <a [routerLink]="['/principal/miperfil']"><i class="icon-user"></i> Mi perfil</a>
                         </li>
-                        <li uiSrefActive="active">
+                        <li routerLinkActive="active">
                             <a href="javascript:;" (click)="salir()"><i class="icon-logout"></i> Salir</a>
                         </li>
                     </ul>

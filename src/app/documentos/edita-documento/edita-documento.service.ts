@@ -54,6 +54,7 @@ export class EditaDocumentoService {
       autor: data.autor,
       descripcion: data.descripcion,
       idCategoria: data.idCategoria,
+      rutaCategoria: data.rutaCategoria,
       portada: data.portada,
       nombreArchivo: data.nombreArchivo
     };
@@ -75,6 +76,7 @@ export class EditaDocumentoService {
       autor: data.autor,
       descripcion: data.descripcion,
       idCategoria: data.idCategoria,
+      rutaCategoria: data.rutaCategoria,
       portada: data.portada,
       nombreArchivo: data.nombreArchivo
     };

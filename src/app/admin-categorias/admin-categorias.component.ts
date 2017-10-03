@@ -41,7 +41,6 @@ export class AdminCategoriasComponent implements OnInit {
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-       let tipo = params['tipo']; 
 
         if(params['tipo'] === 'documentos') {
           this.tipoDocumento = 'CategoriasDocumentos';

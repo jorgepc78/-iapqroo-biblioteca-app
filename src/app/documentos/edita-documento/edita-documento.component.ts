@@ -18,11 +18,12 @@ import { EditaDocumentoService                     } from './edita-documento.ser
 export class EditaDocumentoComponent implements OnInit {
 
   public nodos: TreeviewItem[];
+  public listaCategArray: any = [];
   public listaCateg: any = [];
   public formRegistro: FormGroup;
   public imagenPortada: string = 'assets/img/no_image.png';
   public accion: string = '';
-  public idLibro: number = 0;
+  public idDocumento: number = 0;
   public uploader: FileUploader = new FileUploader({ url: environment.apiUrl + 'almacen_archivos/documentos/upload', itemAlias: 'pdf' });
   public nombreArchivo: string = '';
   public errorArchivo: boolean = false;
@@ -52,6 +53,7 @@ export class EditaDocumentoComponent implements OnInit {
       nombre: ["", Validators.required],
       autor: ["", Validators.required],
       idCategoria:[0,[Validators.required, Validators.min(1)]],
+      rutaCategoria:[""],
       descripcion: ["", Validators.required],
       portada: ["", Validators.required],
       nombreArchivo: ["", Validators.required]
@@ -77,7 +79,7 @@ export class EditaDocumentoComponent implements OnInit {
     };
 
     this.uploader.onBeforeUploadItem = (file) => { 
-      //file.file.name = this.idLibro + '_' + file.file.name;
+      //file.file.name = this.idDocumento + '_' + file.file.name;
     };
     //overide the onCompleteItem property of the uploader so we are 
     //able to deal with the server response.
@@ -91,7 +93,6 @@ export class EditaDocumentoComponent implements OnInit {
         .then(() => {
           this._location.back();
         });
-
       }, 1000);
     };
 
@@ -100,6 +101,8 @@ export class EditaDocumentoComponent implements OnInit {
       .getCategDocumentos()
       .subscribe(
       data => {
+
+        this.listaCategArray = data.json();
 
         let datosTemp: any = [];
         data.json().map(record => {
@@ -127,10 +130,10 @@ export class EditaDocumentoComponent implements OnInit {
           this.accion = 'new';
         else {
           this.accion = 'edit';
-          this.idLibro = parseInt(this.route.snapshot.params['id'], 10);
+          this.idDocumento = parseInt(this.route.snapshot.params['id'], 10);
 
           this.editaDocumentoService
-            .getDocumento(this.idLibro)
+            .getDocumento(this.idDocumento)
             .subscribe(
             data => {
               let datos = data.json();
@@ -213,6 +216,22 @@ export class EditaDocumentoComponent implements OnInit {
   actualizaDatos() {
 
     this.mostrarProgress = true;
+
+    let indice: number = 0;
+    let valor: number= this.formRegistro.value.idCategoria;
+    let rutaArray: any = [];
+    let continuar: boolean = true;
+
+    while(continuar) {
+      indice = this.listaCategArray.findIndex(x => x.idCategoria === valor);
+      if(this.listaCategArray[indice].idPadre == 0)
+        continuar = false;
+
+      rutaArray.unshift(this.listaCategArray[indice].descripcion);
+      valor = this.listaCategArray[indice].idPadre;
+    }
+    this.formRegistro.controls['rutaCategoria'].setValue('/ ' + rutaArray.join(' / '));
+
     if (this.accion == 'new')
     {
       this.msgProgress = 'Subiendo archivo y creando documento...';
@@ -238,7 +257,7 @@ export class EditaDocumentoComponent implements OnInit {
     {
       this.msgProgress = 'Actualizando documento...';
       this.editaDocumentoService
-        .actualizaDocumento(this.idLibro, this.formRegistro.value)
+        .actualizaDocumento(this.idDocumento, this.formRegistro.value)
         .subscribe(
         data => {
           if (this.diferenteArchivo == true) {

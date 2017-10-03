@@ -5,7 +5,7 @@
             <div class="portlet-title">
                 <div class="caption font-dark">
                     <i class="icon-notebook font-dark"></i>
-                    <span class="caption-subject bold uppercase"> Documentos</span>
+                    <span class="caption-subject bold uppercase"> {{titulo}}</span>
                 </div>
                 <div class="actions">
                     <a href="javascript:;" class="btn btn-circle green" (click)="nuevoRegistro()">
@@ -36,9 +36,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="odd gradeX pointer" *ngFor="let registro of listaRegistros | paginate: { id: 'server', itemsPerPage: tablaListaRegistros.registrosPorPagina, currentPage: tablaListaRegistros.paginaActual, totalItems: tablaListaRegistros.totalElementos }" (click)="muestraDatosRegistro(registro)" [class.active]="registro.idDocumento == registroSeleccionado.idDocumento">
+                            <tr class="odd gradeX pointer" *ngFor="let registro of listaRegistros | paginate: { id: 'server', itemsPerPage: tablaListaRegistros.registrosPorPagina, currentPage: tablaListaRegistros.paginaActual, totalItems: tablaListaRegistros.totalElementos }" (click)="muestraDatosRegistro(registro)" [class.active]="registro.idElemento == registroSeleccionado.idElemento">
                                 <td> {{registro.nombre}} </td>
-                                <td> {{ (registro.categoria_pertenece == undefined ? '' : registro.categoria_pertenece.descripcion)}} </td>
+                                <td> {{ registro.rutaCategoria }} </td>
                             </tr>
                         </tbody>
                     </table>
@@ -65,9 +65,9 @@
                     <span class="caption-subject bold uppercase"> Detalle</span>
                 </div>
                 <div class="actions" *ngIf="(listaRegistros.length > 0)">
-                    <a href="javascript:;" class="btn btn-circle green-haze" (click)="editaRegistro(registroSeleccionado.idDocumento)">
+                    <a href="javascript:;" class="btn btn-circle green-haze" (click)="editaRegistro(registroSeleccionado.idElemento)">
                         <i class="fa fa-pencil"></i> Editar </a>
-                    <a href="javascript:;" class="btn btn-circle red" (click)="eliminaRegistro(registroSeleccionado.idDocumento, registroSeleccionado.nombreArchivo)">
+                    <a href="javascript:;" class="btn btn-circle red" (click)="eliminaRegistro(registroSeleccionado.idElemento, registroSeleccionado.nombreArchivo)">
                         <i class="fa fa-trash-o"></i> Eliminar </a>
                 </div>
             </div>
@@ -84,9 +84,7 @@
                 </div>
                 <div class="row static-info">
                     <div class="col-md-3 name"> Categor&iacute;a: </div>
-                    <div class="col-md-9 value">
-                        {{ (registroSeleccionado.categoria_pertenece == undefined ? '' : registroSeleccionado.categoria_pertenece.descripcion) }}
-                    </div>
+                    <div class="col-md-9 value"> <div style="height: 40px;">{{registroSeleccionado.rutaCategoria}} </div></div>
                 </div>
                 <div class="row static-info">
                     <div class="col-md-3 name"> Descripci&oacute;n: </div>
@@ -105,7 +103,7 @@
                 <div class="row static-info">
                     <div class="col-md-3 name"> </div>
                     <div class="col-md-9 value text-center">
-                        <button type="button" (click)="verLibro(registroSeleccionado.nombreArchivo)" class="fileinput-new btn btn-circle green">Ver documento</button>
+                        <button type="button" (click)="verDocumento(registroSeleccionado)" class="fileinput-new btn btn-circle green">{{tituloBtnVer}}</button>
                     </div>
                 </div>
             </div>

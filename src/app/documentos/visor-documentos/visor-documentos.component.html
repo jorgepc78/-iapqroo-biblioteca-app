@@ -19,7 +19,12 @@
           <object *ngIf="pdfFile" [data]="pdfFile" type='application/pdf' width='100%' height='100%'>
               <p>It appears you don't have a PDF plugin for this browser.</p> 
           </object>
+
+          <div class="embed-responsive embed-responsive-16by9" *ngIf="urlVideo">
+            <iframe class="embed-responsive-item" [src]='urlVideo' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          </div>
       </div>
+
 
   </div>
 </div>

@@ -31,4 +31,11 @@
         .page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav > li:hover > a > i,
         .page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav > li.open > a > i {
           color: #ffffff !important; }
-      
+
+.hor-menu .navbar-nav > li.active > a:hover, .page-header .page-header-menu .hor-menu .navbar-nav > li.current > a, .page-header .page-header-menu .hor-menu .navbar-nav > li.current > a:hover {
+    background: #5a7a3d !important;
+}
+
+.page-header .page-header-menu .hor-menu .navbar-nav > li.active > a, .page-header .page-header-menu .hor-menu .navbar-nav > li.active > a:hover, .page-header .page-header-menu .hor-menu .navbar-nav > li.current > a, .page-header .page-header-menu .hor-menu .navbar-nav > li.current > a:hover {
+    background: #5a7a3d !important;
+}

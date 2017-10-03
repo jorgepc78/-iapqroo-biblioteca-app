@@ -1,3 +1,132 @@
-<p>
-  edita-video works!
-</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <div class="row">
+                        <div class="col-md-4" style="width: 250px;">
+                            <i class="fa fa-pencil"></i> Detalle video
+                        </div>
+                        <div class="col-md-5" style="padding-right: 0;">
+                            <span *ngIf="mostrarProgress"> {{msgProgress}} </span>
+                        </div>
+                        <div class="col-md-3 text-left" style="padding-left: 0;" *ngIf="mostrarProgress">
+                            <div style="width: 100px;" >
+                                <i class="fa fa-spinner fa-2x fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="btn-set pull-right">
+                        <button type="submit" [disabled]="!formRegistro.valid" (click)="actualizaDatos()" class="btn btn-circle green">Guardar</button>
+                        <button type="button" (click)="regresar()" class="btn btn-circle grey-salsa btn-outline">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form class="form-horizontal" [formGroup]="formRegistro" (ngSubmit)="actualizaDatos()">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Nombre</label>
+                                    <div class="col-md-10">
+                                        <textarea class="form-control input-circle" formControlName="nombre" placeholder="Titulo" rows="3" maxlength="150"></textarea>                            
+                                        <span *ngIf="formRegistro.controls['nombre'].invalid && (formRegistro.controls['nombre'].dirty || formRegistro.controls['nombre'].touched)" class="help-block font-red-mint">Este campo es requerido.</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Autor</label>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control input-circle" formControlName="autor" placeholder="Autor" maxlength="105">
+                                        <span *ngIf="formRegistro.controls['autor'].invalid && (formRegistro.controls['autor'].dirty || formRegistro.controls['autor'].touched)" class="help-block font-red-mint">Este campo es requerido.</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Categor&iacute;a</label>
+                                    <div class="col-md-10" *ngIf="listaCateg">
+                                        <ngx-dropdown-treeview-select [config]="config" [items]="listaCateg" [value]="idCategoriaSelec" (valueChange)="onValueChange($event)"></ngx-dropdown-treeview-select>
+                                    </div>
+                                </div>
+                                <div class="form-group last">
+                                    <label class="col-md-2 control-label">Descripci&oacute;n</label>
+                                    <div class="col-md-10">
+                                        <app-tinymce formControlName="descripcion" rows="10" ></app-tinymce>
+                                        <span *ngIf="formRegistro.controls['descripcion'].invalid && (formRegistro.controls['descripcion'].dirty || formRegistro.controls['descripcion'].touched)" class="help-block font-red-mint">Este campo es requerido.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+
+                          <div class="row">
+                            <div class="col-md-4">
+
+                                <h4 class="form-section" style="margin-bottom: 0; margin-top: 10px;">Portada</h4>
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <div class="col-md-12 text-center">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" style="width: 100%">
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                            <span class="btn btn-file">
+                                                                <button type="button" class="fileinput-new btn btn-circle green">Seleccionar imagen</button>
+                                                                <button type="button" class="fileinput-exists btn btn-circle grey">Cambiar</button>
+                                                                <input #uploadPortada type="file" accept="image/*" (change)="changeListener($event)">
+                                                            </span>
+                                                            <button type="button" (click)="borraImg()" class="fileinput-exists btn btn-circle red" style="margin-left: 14px;" data-dismiss="fileinput">Eliminar</button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                            <div class="fileinput-new thumbnail" style="height: 200px;">
+                                                                <img [src]="imagenPortada" alt="" />
+                                                            </div>
+                                                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-height: 200px;"> </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-8">
+
+                                <h4 class="form-section" style="margin-bottom: 0; margin-top: 10px;">Video</h4>
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="col-md-1 control-label" style="width: 90px;">Url video</label>
+                                        <div class="col-md-10">
+                                            <input type="text" class="form-control input-circle" formControlName="url" (blur)="onBlurMethod($event.target.value)" placeholder="Url video">
+                                            <span *ngIf="formRegistro.controls['url'].invalid && (formRegistro.controls['url'].dirty || formRegistro.controls['autor'].touched)" class="help-block font-red-mint">Este campo es requerido.</span>
+                                            <span *ngIf="showErrorUrlVideo" class="help-block font-red-mint">{{msgerrorUrlVideo}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12 text-center" style="height: 29em;">
+                                          <i class="fa fa-spinner fa-4x fa-spin" style="margin-top: 80px;" *ngIf="showSpinnerVideo"></i>
+                                            <div class="embed-responsive embed-responsive-16by9" *ngIf="urltempVideo">
+                                              <iframe class="embed-responsive-item" [src]='urltempVideo' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>
